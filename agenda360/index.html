@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agenda 360 — Transforme sua carteira em faturamento</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Serif+Display:ital@0;1&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<style>
+  /* ---- Tokens: Cores ---- */
+  :root {
+    --color-warm-nude: #D8B08C;
+    --color-light-cream: #F7F2EC;
+    --color-off-white: #FCFAF8;
+    --color-espresso: #6D4C41;
+    --color-soft-brown: #8D6E63;
+    --color-warm-gray: #A8A29E;
+    --color-charcoal: #2B2B2B;
+    --color-nude-dark: #C89D74;
+    --color-success: #8FAE8B;
+    --color-error: #D07A63;
+    --color-info-bg: #E8D8C5;
+    --color-espresso-hover: #7d584c;
+    --color-espresso-press: #5a3d34;
+    --color-warm-nude-hover: #e2c1a0;
+    --color-warm-nude-press: #cda078;
+    --color-success-bg: #EAF1E9;
+    --color-error-bg: #FBEAE6;
+    --color-border-hairline: #E8D8C5;
+
+    --surface-page: var(--color-off-white);
+    --surface-card: #FFFFFF;
+    --surface-sunken: var(--color-light-cream);
+    --surface-inverse: var(--color-charcoal);
+    --surface-accent-soft: var(--color-info-bg);
+
+    --text-primary: var(--color-charcoal);
+    --text-secondary: var(--color-soft-brown);
+    --text-muted: var(--color-warm-gray);
+    --text-on-accent: var(--color-off-white);
+    --text-link: var(--color-espresso);
+    --text-link-hover: var(--color-warm-nude-press);
+
+    --border-default: var(--color-border-hairline);
+    --border-strong: var(--color-soft-brown);
+    --border-focus: var(--color-warm-nude);
+
+    --accent-primary: var(--color-espresso);
+    --accent-primary-hover: var(--color-espresso-hover);
+    --accent-primary-press: var(--color-espresso-press);
+    --accent-secondary: var(--color-warm-nude);
+    --accent-secondary-hover: var(--color-warm-nude-hover);
+
+    --feedback-success-fg: #4C6B49;
+    --feedback-success-bg: var(--color-success-bg);
+    --feedback-error-fg: var(--color-error);
+    --feedback-error-bg: var(--color-error-bg);
+    --feedback-info-fg: var(--color-espresso);
+    --feedback-info-bg: var(--color-info-bg);
+
+    /* ---- Tokens: Tipografia ---- */
+    --font-display: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+    --font-display-alt: 'DM Serif Display', 'Playfair Display', serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+    --text-h1-size: 56px;   --text-h1-lh: 64px;   --text-h1-weight: 700;
+    --text-h2-size: 42px;   --text-h2-lh: 52px;   --text-h2-weight: 600;
+    --text-h3-size: 30px;   --text-h3-lh: 40px;   --text-h3-weight: 600;
+    --text-h4-size: 24px;   --text-h4-lh: 32px;   --text-h4-weight: 500;
+    --text-body-size: 18px; --text-body-lh: 28px; --text-body-weight: 400;
+    --text-small-size: 15px;--text-small-lh: 24px;--text-small-weight: 400;
+    --text-caption-size: 13px; --text-caption-lh: 20px; --text-caption-weight: 400;
+
+    --tracking-wordmark: 0.08em;
+    --tracking-eyebrow: 0.12em;
+    --tracking-normal: 0;
+
+    /* ---- Tokens: Espaçamento ---- */
+    --space-1: 4px;  --space-2: 8px;   --space-3: 12px;  --space-4: 16px;
+    --space-5: 24px; --space-6: 32px;  --space-7: 40px;  --space-8: 48px;
+    --space-9: 60px; --space-10: 64px; --space-11: 80px; --space-12: 96px;
+
+    /* ---- Tokens: Efeitos ---- */
+    --radius-pill: 999px;
+    --radius-input: 18px;
+    --radius-card: 24px;
+    --radius-sm: 10px;
+    --radius-circle: 50%;
+
+    --shadow-soft: 0 8px 24px rgba(109, 76, 65, 0.06);
+    --shadow-medium: 0 16px 40px rgba(109, 76, 65, 0.08);
+    --shadow-elevated: 0 24px 60px rgba(109, 76, 65, 0.10);
+
+    --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+    --duration-fast: 150ms;
+    --duration-standard: 250ms;
+    --duration-slow: 400ms;
+  }
+
+  /* ---- Reset ---- */
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--surface-page); }
+  a { color: var(--text-link); text-decoration: none; }
+  a:hover { color: var(--text-link-hover); }
+
+  /* ---- Tipografia utilitária ---- */
+  .eyebrow {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--accent-primary);
+  }
+  .h1 {
+    font-family: var(--font-display);
+    font-size: var(--text-h1-size);
+    line-height: var(--text-h1-lh);
+    font-weight: var(--text-h1-weight);
+    color: var(--text-primary);
+    margin: 0;
+  }
+  .h2 {
+    font-family: var(--font-display);
+    font-size: var(--text-h2-size);
+    line-height: var(--text-h2-lh);
+    font-weight: var(--text-h2-weight);
+    color: var(--text-primary);
+    margin: 0;
+  }
+  .h3 {
+    font-family: var(--font-display);
+    font-size: var(--text-h3-size);
+    line-height: var(--text-h3-lh);
+    font-weight: var(--text-h3-weight);
+    color: var(--text-primary);
+    margin: 0;
+  }
+  .body-lg {
+    font-family: var(--font-body);
+    font-size: var(--text-body-size);
+    line-height: var(--text-body-lh);
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  /* ---- Botão ---- */
+  .btn {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 1;
+    border-radius: var(--radius-pill);
+    height: 52px;
+    padding: 0 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background var(--duration-fast) var(--ease-standard),
+                color var(--duration-fast) var(--ease-standard);
+    text-decoration: none;
+  }
+  .btn-primary {
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
+  }
+  .btn-primary:hover {
+    background: var(--accent-primary-hover);
+    color: var(--text-on-accent);
+  }
+  .btn-nude {
+    background: var(--color-warm-nude);
+    color: var(--text-primary);
+  }
+  .btn-nude:hover {
+    background: var(--color-warm-nude-hover);
+    color: var(--text-primary);
+  }
+  .btn svg {
+    flex-shrink: 0;
+  }
+
+  /* ---- Seções ---- */
+  .lp-section { padding-left: 32px; padding-right: 32px; }
+
+  /* ---- FAQ ---- */
+  .faq-item summary { cursor: pointer; }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item[open] summary { color: var(--accent-primary); }
+
+  /* ---- Responsivo ---- */
+  @media (max-width: 860px) {
+    /* Grids */
+    .lp-hero {
+      grid-template-columns: 1fr !important;
+      gap: 40px !important;
+      padding: 48px 20px 40px !important;
+      text-align: center !important;
+    }
+    .lp-grid-3 {
+      grid-template-columns: 1fr !important;
+      gap: 24px !important;
+    }
+    .lp-grid-2 {
+      grid-template-columns: 1fr !important;
+      gap: 32px !important;
+    }
+    .lp-section {
+      padding-left: 20px !important;
+      padding-right: 20px !important;
+    }
+
+    /* Tipografia */
+    .h1 { font-size: 32px !important; line-height: 40px !important; }
+    .h2 { font-size: 26px !important; line-height: 34px !important; }
+
+    /* Hero: centralização e botões */
+    .lp-hero .body-lg { max-width: 100% !important; }
+    .hero-cta-group {
+      flex-direction: column !important;
+      align-items: center !important;
+      width: 100% !important;
+      gap: 16px !important;
+    }
+    .hero-cta-group .btn {
+      width: 100% !important;
+      white-space: normal !important;
+      height: auto !important;
+      min-height: 52px !important;
+      padding: 14px 20px !important;
+      line-height: 1.4 !important;
+      text-align: center !important;
+    }
+
+    /* Padding horizontal uniforme em todas as seções */
+    section {
+      padding-left: 20px !important;
+      padding-right: 20px !important;
+    }
+
+    /* Itens de grid-3: centralizar em mobile */
+    .lp-grid-3 > div { text-align: center !important; }
+    /* Ícones dos cards: centralizar horizontalmente */
+    .lp-grid-3 > div > div:first-child {
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+
+    /* Botão primário nos CTAs internos das seções */
+    .btn-primary {
+      white-space: normal !important;
+      height: auto !important;
+      min-height: 52px !important;
+      padding: 14px 20px !important;
+      line-height: 1.4 !important;
+    }
+
+    /* Footer em coluna */
+    footer > div {
+      flex-direction: column !important;
+      align-items: center !important;
+      text-align: center !important;
+      gap: 8px !important;
+    }
+
+    /* Mock dashboard: padding reduzido */
+    #dashboard-mock,
+    #dashboard-mock-2 {
+      padding: 20px !important;
+    }
+  }
+</style>
+</head>
+<body style="font-family: var(--font-body); background: var(--surface-page); overflow-x: hidden;">
+
+  <!-- NAV -->
+  <header style="position: sticky; top: 0; z-index: 50; background: rgba(252,250,248,0.92); backdrop-filter: blur(6px); border-bottom: 1px solid var(--border-default);">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 28px 32px; display: flex; align-items: center; justify-content: center;">
+      <div style="display: flex; align-items: baseline; gap: 10px;">
+        <span style="font-family: var(--font-display); font-size: 36px; font-weight: 600; color: var(--accent-primary);">agenda</span>
+        <span style="font-family: var(--font-display); font-size: 36px; font-weight: 600; color: var(--color-warm-nude);">360</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="lp-hero" style="max-width: 1280px; margin: 0 auto; padding: 96px 32px 80px; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 64px; align-items: center;">
+    <div>
+      <div class="eyebrow" style="margin-bottom: 20px;">PARA ESTETICISTAS AUTÔNOMAS</div>
+      <h1 class="h1" style="margin-bottom: 24px;">Sua carteira de clientes já tem o faturamento que falta. Você só precisa <em style="font-style: italic; color: var(--accent-primary);">ver</em> onde ele está.</h1>
+      <p class="body-lg" style="max-width: 520px; margin-bottom: 36px;">O Agenda 360 olha para sua lista de clientes todos os dias e mostra exatamente quem precisa de um retorno agora — antes que ela procure outra profissional.</p>
+      <div class="hero-cta-group" style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
+        <a href="#preco" class="btn btn-primary" onclick="scrollToPricing(event)">
+          Quero transformar minha carteira em faturamento
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="#como-funciona" style="font-size: 15px; font-weight: 600; color: var(--text-primary); display: flex; align-items: center; gap: 6px;">Ver como funciona<span style="font-size: 13px;">↓</span></a>
+      </div>
+      <p style="font-family: var(--font-body); font-size: 14px; color: var(--text-muted); margin: 20px 0 0;">Apenas R$ 47 por mês · acesso imediato</p>
+    </div>
+    <div style="position: relative;">
+      <div style="position: absolute; inset: -30px; background: var(--color-warm-nude); opacity: 0.35; border-radius: 32px; filter: blur(40px); z-index: 0;"></div>
+      <div id="dashboard-mock" style="position: relative; z-index: 1; background: var(--surface-card); border-radius: var(--radius-card); box-shadow: var(--shadow-elevated); padding: 28px; border: 1px solid var(--border-default);"></div>
+    </div>
+  </section>
+
+  <!-- PROBLEMA -->
+  <section style="background: var(--surface-sunken); padding: 88px 32px;">
+    <div style="max-width: 1000px; margin: 0 auto; text-align: center;">
+      <div class="eyebrow" style="margin-bottom: 16px;">O CUSTO DE NÃO SABER</div>
+      <h2 class="h2" style="margin-bottom: 20px;">Toda cliente que você esquece de chamar é faturamento que vai para a concorrência.</h2>
+      <p class="body-lg" style="max-width: 620px; margin: 0 auto;">Sua agenda de hoje conta apenas metade da história. A outra metade — quem já devia ter voltado — some entre conversas de WhatsApp e planilhas soltas.</p>
+    </div>
+    <div class="lp-grid-3" style="max-width: 1100px; margin: 56px auto 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;">
+      <div style="background: var(--surface-card); border-radius: var(--radius-card); padding: 32px; box-shadow: var(--shadow-soft);">
+        <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--surface-accent-soft); display: flex; align-items: center; justify-content: center; margin-bottom: 20px;"><i data-lucide="clock" style="width: 22px; height: 22px; color: var(--accent-primary);"></i></div>
+        <h3 style="font-family: var(--font-display); font-size: 21px; font-weight: 600; margin: 0 0 10px; color: var(--text-primary);">Retornos esquecidos</h3>
+        <p style="font-size: 15px; line-height: 24px; color: var(--text-secondary); margin: 0;">Sem um sistema que avisa, o retorno da cliente vira lembrança tardia — quando ela já marcou em outro lugar.</p>
+      </div>
+      <div style="background: var(--surface-card); border-radius: var(--radius-card); padding: 32px; box-shadow: var(--shadow-soft);">
+        <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--surface-accent-soft); display: flex; align-items: center; justify-content: center; margin-bottom: 20px;"><i data-lucide="layout-grid" style="width: 22px; height: 22px; color: var(--accent-primary);"></i></div>
+        <h3 style="font-family: var(--font-display); font-size: 21px; font-weight: 600; margin: 0 0 10px; color: var(--text-primary);">Informação espalhada</h3>
+        <p style="font-size: 15px; line-height: 24px; color: var(--text-secondary); margin: 0;">Histórico no caderno, conversa no WhatsApp, agenda no papel. Nenhum lugar mostra o quadro completo.</p>
+      </div>
+      <div style="background: var(--surface-card); border-radius: var(--radius-card); padding: 32px; box-shadow: var(--shadow-soft);">
+        <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--surface-accent-soft); display: flex; align-items: center; justify-content: center; margin-bottom: 20px;"><i data-lucide="trending-down" style="width: 22px; height: 22px; color: var(--accent-primary);"></i></div>
+        <h3 style="font-family: var(--font-display); font-size: 21px; font-weight: 600; margin: 0 0 10px; color: var(--text-primary);">Crescimento por sorte</h3>
+        <p style="font-size: 15px; line-height: 24px; color: var(--text-secondary); margin: 0;">Sem clareza sobre quem priorizar, cada mês bom ou fraco depende de acaso — não de decisão.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMO FUNCIONA -->
+  <section id="como-funciona" style="max-width: 1100px; margin: 0 auto; padding: 96px 32px;">
+    <div style="text-align: center; margin-bottom: 64px;">
+      <div class="eyebrow" style="margin-bottom: 16px;">COMO FUNCIONA</div>
+      <h2 class="h2">Três passos entre sua carteira parada e sua agenda cheia.</h2>
+    </div>
+    <div class="lp-grid-3" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px;">
+      <div>
+        <div style="font-family: var(--font-display); font-size: 44px; color: var(--color-warm-nude); font-weight: 600; margin-bottom: 14px;">01</div>
+        <h3 style="font-family: var(--font-display); font-size: 22px; font-weight: 600; margin: 0 0 10px; color: var(--text-primary);">Traga sua carteira</h3>
+        <p style="font-size: 16px; line-height: 26px; color: var(--text-secondary); margin: 0;">Cadastre suas clientes e o histórico de procedimentos — em minutos, sem planilha.</p>
+      </div>
+      <div>
+        <div style="font-family: var(--font-display); font-size: 44px; color: var(--color-warm-nude); font-weight: 600; margin-bottom: 14px;">02</div>
+        <h3 style="font-family: var(--font-display); font-size: 22px; font-weight: 600; margin: 0 0 10px; color: var(--text-primary);">Abra o painel do dia</h3>
+        <p style="font-size: 16px; line-height: 26px; color: var(--text-secondary); margin: 0;">Todas as manhãs, o Agenda 360 já separou quem precisa de atenção — e por quê.</p>
+      </div>
+      <div>
+        <div style="font-family: var(--font-display); font-size: 44px; color: var(--color-warm-nude); font-weight: 600; margin-bottom: 14px;">03</div>
+        <h3 style="font-family: var(--font-display); font-size: 22px; font-weight: 600; margin: 0 0 10px; color: var(--text-primary);">Aja com clareza</h3>
+        <p style="font-size: 16px; line-height: 26px; color: var(--text-secondary); margin: 0;">Chame a cliente certa, no momento certo. A decisão já está pronta — só falta o convite.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECURSOS -->
+  <section id="recursos" style="background: var(--surface-sunken); padding: 96px 32px;">
+    <div class="lp-grid-2" style="max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 72px; align-items: center;">
+      <div>
+        <div class="eyebrow" style="margin-bottom: 16px;">DENTRO DO PAINEL</div>
+        <h2 class="h2" style="margin-bottom: 24px;">Um único lugar que já sabe quem chamar hoje.</h2>
+        <div style="display: flex; flex-direction: column; gap: 24px; margin-top: 36px;">
+          <div style="display: flex; gap: 16px;">
+            <i data-lucide="calendar-check" style="width: 22px; height: 22px; color: var(--accent-primary); flex-shrink: 0; margin-top: 2px;"></i>
+            <div>
+              <h4 style="font-family: var(--font-body); font-size: 16px; font-weight: 700; margin: 0 0 4px; color: var(--text-primary);">Prioridade do dia</h4>
+              <p style="font-size: 15px; line-height: 24px; color: var(--text-secondary); margin: 0;">Lista clara de quem está atrasada, no prazo ou próxima do retorno ideal.</p>
+            </div>
+          </div>
+          <div style="display: flex; gap: 16px;">
+            <i data-lucide="sparkles" style="width: 22px; height: 22px; color: var(--accent-primary); flex-shrink: 0; margin-top: 2px;"></i>
+            <div>
+              <h4 style="font-family: var(--font-body); font-size: 16px; font-weight: 700; margin: 0 0 4px; color: var(--text-primary);">Oportunidades sugeridas</h4>
+              <p style="font-size: 15px; line-height: 24px; color: var(--text-secondary); margin: 0;">O sistema aponta procedimentos e retornos com maior chance de conversão.</p>
+            </div>
+          </div>
+          <div style="display: flex; gap: 16px;">
+            <i data-lucide="bar-chart-3" style="width: 22px; height: 22px; color: var(--accent-primary); flex-shrink: 0; margin-top: 2px;"></i>
+            <div>
+              <h4 style="font-family: var(--font-body); font-size: 16px; font-weight: 700; margin: 0 0 4px; color: var(--text-primary);">Faturamento do mês</h4>
+              <p style="font-size: 15px; line-height: 24px; color: var(--text-secondary); margin: 0;">Acompanhe o resultado de agir com clareza, em tempo real.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="position: relative;">
+        <div id="dashboard-mock-2" style="background: var(--surface-card); border-radius: var(--radius-card); box-shadow: var(--shadow-elevated); padding: 32px; border: 1px solid var(--border-default);"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NÚMEROS -->
+  <section style="max-width: 1000px; margin: 0 auto; padding: 88px 32px; text-align: center;">
+    <div class="eyebrow" style="margin-bottom: 16px;">O QUE MUDA NA SUA ROTINA</div>
+    <h2 class="h2" style="margin-bottom: 56px;">Menos tempo procurando. Mais tempo atendendo.</h2>
+    <div class="lp-grid-3" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;">
+      <div>
+        <div style="font-family: var(--font-display); font-size: 52px; font-weight: 600; color: var(--accent-primary);">1</div>
+        <p style="font-size: 15px; color: var(--text-secondary); margin: 8px 0 0;">painel diário, no lugar de planilhas e cadernos soltos</p>
+      </div>
+      <div>
+        <div style="font-family: var(--font-display); font-size: 52px; font-weight: 600; color: var(--accent-primary);">0</div>
+        <p style="font-size: 15px; color: var(--text-secondary); margin: 8px 0 0;">retornos esquecidos quando o sistema avisa por você</p>
+      </div>
+      <div>
+        <div style="font-family: var(--font-display); font-size: 52px; font-weight: 600; color: var(--accent-primary);">R$ 47</div>
+        <p style="font-size: 15px; color: var(--text-secondary); margin: 8px 0 0;">por mês para organizar e crescer com sua carteira</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEPOIMENTOS -->
+  <section id="depoimentos" style="background: var(--surface-sunken); padding: 96px 32px;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <div style="text-align: center; margin-bottom: 56px;">
+        <div class="eyebrow" style="margin-bottom: 16px;">QUEM JÁ USA</div>
+        <h2 class="h2">Profissionais que trocaram achismo por decisão.</h2>
+      </div>
+      <div class="lp-grid-3" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;">
+        <div style="background: var(--surface-card); border-radius: var(--radius-card); padding: 32px; box-shadow: var(--shadow-soft); display: flex; flex-direction: column; gap: 20px;">
+          <i data-lucide="quote" style="width: 22px; height: 22px; color: var(--color-warm-nude);"></i>
+          <p style="font-family: var(--font-display); font-style: italic; font-size: 18px; line-height: 28px; color: var(--text-primary); margin: 0;">"Eu não sabia que tinha tantas clientes prontas para voltar. Hoje sei exatamente quem chamar."</p>
+          <div style="font-size: 14px; color: var(--text-muted);">Esteticista autônoma, São Paulo</div>
+        </div>
+        <div style="background: var(--surface-card); border-radius: var(--radius-card); padding: 32px; box-shadow: var(--shadow-soft); display: flex; flex-direction: column; gap: 20px;">
+          <i data-lucide="quote" style="width: 22px; height: 22px; color: var(--color-warm-nude);"></i>
+          <p style="font-family: var(--font-display); font-style: italic; font-size: 18px; line-height: 28px; color: var(--text-primary); margin: 0;">"Substituiu três planilhas e meu caderno de anotações. Agora minha manhã começa com um plano."</p>
+          <div style="font-size: 14px; color: var(--text-muted);">Esteticista autônoma, Belo Horizonte</div>
+        </div>
+        <div style="background: var(--surface-card); border-radius: var(--radius-card); padding: 32px; box-shadow: var(--shadow-soft); display: flex; flex-direction: column; gap: 20px;">
+          <i data-lucide="quote" style="width: 22px; height: 22px; color: var(--color-warm-nude);"></i>
+          <p style="font-family: var(--font-display); font-style: italic; font-size: 18px; line-height: 28px; color: var(--text-primary); margin: 0;">"Parece feito para o meu jeito de trabalhar. Elegante e direto ao ponto, sem nada técnico demais."</p>
+          <div style="font-size: 14px; color: var(--text-muted);">Esteticista autônoma, Curitiba</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PREÇO -->
+  <section id="preco" style="padding: 96px 32px;">
+    <div style="max-width: 1280px; margin: 0 auto; text-align: center; margin-bottom: 56px;">
+      <div class="eyebrow" style="margin-bottom: 16px;">INVESTIMENTO</div>
+      <h2 class="h2">Uma assinatura simples. Resultados todos os meses.</h2>
+    </div>
+    <div style="max-width: 480px; margin: 0 auto; background: var(--surface-inverse); border-radius: var(--radius-card); padding: 48px 40px; box-shadow: var(--shadow-elevated); text-align: center;">
+      <div style="font-family: var(--font-body); font-size: 14px; font-weight: 700; letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--color-warm-nude); margin-bottom: 20px;">AGENDA 360</div>
+      <div style="display: flex; align-items: baseline; justify-content: center; gap: 6px; margin-bottom: 8px;">
+        <span style="font-family: var(--font-display); font-size: 60px; font-weight: 600; color: var(--text-on-accent);">R$ 47</span>
+      </div>
+      <p style="font-size: 15px; color: var(--color-warm-nude); margin: 0 0 32px;">por mês · cancele quando quiser</p>
+      <div style="display: flex; flex-direction: column; gap: 16px; text-align: left; margin-bottom: 36px;">
+        <div style="display: flex; gap: 12px; align-items: flex-start;">
+          <i data-lucide="check" style="width: 18px; height: 18px; color: var(--color-warm-nude); flex-shrink: 0; margin-top: 3px;"></i>
+          <span style="font-size: 15px; color: var(--text-on-accent);">Painel diário de prioridades da sua carteira</span>
+        </div>
+        <div style="display: flex; gap: 12px; align-items: flex-start;">
+          <i data-lucide="check" style="width: 18px; height: 18px; color: var(--color-warm-nude); flex-shrink: 0; margin-top: 3px;"></i>
+          <span style="font-size: 15px; color: var(--text-on-accent);">Cadastro completo de clientes e histórico</span>
+        </div>
+        <div style="display: flex; gap: 12px; align-items: flex-start;">
+          <i data-lucide="check" style="width: 18px; height: 18px; color: var(--color-warm-nude); flex-shrink: 0; margin-top: 3px;"></i>
+          <span style="font-size: 15px; color: var(--text-on-accent);">Agenda integrada e oportunidades sugeridas</span>
+        </div>
+        <div style="display: flex; gap: 12px; align-items: flex-start;">
+          <i data-lucide="check" style="width: 18px; height: 18px; color: var(--color-warm-nude); flex-shrink: 0; margin-top: 3px;"></i>
+          <span style="font-size: 15px; color: var(--text-on-accent);">Acesso imediato, atualizações inclusas</span>
+        </div>
+      </div>
+      <a href="#" class="btn btn-nude" style="width: 100%; font-size: 16px;">
+        Quero o Agenda 360 agora
+      </a>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section style="background: var(--surface-sunken); padding: 96px 32px;">
+    <div style="max-width: 760px; margin: 0 auto;">
+      <div style="text-align: center; margin-bottom: 48px;">
+        <div class="eyebrow" style="margin-bottom: 16px;">PERGUNTAS FREQUENTES</div>
+        <h2 class="h2">Ainda com dúvidas?</h2>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <details class="faq-item" style="background: var(--surface-card); border-radius: 18px; padding: 24px 28px; box-shadow: var(--shadow-soft);">
+          <summary style="font-family: var(--font-body); font-size: 17px; font-weight: 700; color: var(--text-primary); list-style: none;">Preciso saber usar tecnologia para usar o Agenda 360?</summary>
+          <p style="font-size: 15px; line-height: 24px; color: var(--text-secondary); margin: 14px 0 0;">Não. O painel foi pensado para abrir e entender em segundos — sem termos técnicos, sem manual.</p>
+        </details>
+        <details class="faq-item" style="background: var(--surface-card); border-radius: 18px; padding: 24px 28px; box-shadow: var(--shadow-soft);">
+          <summary style="font-family: var(--font-body); font-size: 17px; font-weight: 700; color: var(--text-primary); list-style: none;">O valor de R$ 47 é cobrado todo mês?</summary>
+          <p style="font-size: 15px; line-height: 24px; color: var(--text-secondary); margin: 14px 0 0;">Sim, é uma assinatura mensal de R$ 47. Você pode cancelar a qualquer momento, sem multa e sem burocracia.</p>
+        </details>
+        <details class="faq-item" style="background: var(--surface-card); border-radius: 18px; padding: 24px 28px; box-shadow: var(--shadow-soft);">
+          <summary style="font-family: var(--font-body); font-size: 17px; font-weight: 700; color: var(--text-primary); list-style: none;">Funciona se eu atendo em domicílio ou home studio?</summary>
+          <p style="font-size: 15px; line-height: 24px; color: var(--text-secondary); margin: 14px 0 0;">Sim. O Agenda 360 é feito para a profissional autônoma — não importa onde você atende.</p>
+        </details>
+        <details class="faq-item" style="background: var(--surface-card); border-radius: 18px; padding: 24px 28px; box-shadow: var(--shadow-soft);">
+          <summary style="font-family: var(--font-body); font-size: 17px; font-weight: 700; color: var(--text-primary); list-style: none;">Consigo importar minha lista de clientes atual?</summary>
+          <p style="font-size: 15px; line-height: 24px; color: var(--text-secondary); margin: 14px 0 0;">Sim, o cadastro é rápido e guiado — em poucos minutos sua carteira já está dentro do painel.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section style="padding: 100px 32px; text-align: center;">
+    <div style="max-width: 700px; margin: 0 auto;">
+      <h2 class="h2" style="margin-bottom: 24px;">Clareza para agir. Resultados para crescer.</h2>
+      <p class="body-lg" style="margin-bottom: 40px;">Sua próxima cliente pronta para voltar já está na sua carteira. O Agenda 360 mostra quem é — hoje.</p>
+      <a href="#preco" class="btn btn-primary" onclick="scrollToPricing(event)">
+        Quero transformar minha carteira em faturamento agora
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="border-top: 1px solid var(--border-default); padding: 40px 32px;">
+    <div style="max-width: 1280px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+      <div style="font-family: var(--font-body); font-size: 13px; color: var(--text-muted);">Um produto desenvolvido por Avance Certo Soluções</div>
+      <div style="font-family: var(--font-body); font-size: 13px; color: var(--text-muted);">avancecerto.com</div>
+    </div>
+  </footer>
+
+<script>
+  function scrollToPricing(e) {
+    e.preventDefault();
+    const el = document.getElementById('preco');
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function renderDashboardMock(container) {
+    if (!container || container.dataset.mounted) return;
+    container.dataset.mounted = '1';
+
+    const rows = [
+      { name: 'Maria Silva',   next: '12/06/2025', status: 'Atrasado',  tone: 'error' },
+      { name: 'Juliana Souza', next: '13/06/2025', status: 'No prazo',  tone: 'neutral' },
+      { name: 'Camila Santos', next: '15/06/2025', status: 'Próximo',   tone: 'warning' },
+    ];
+
+    const cards = [
+      { label: 'clientes hoje',     value: '12',       title: 'Próximo retorno' },
+      { label: 'ações sugeridas',   value: '8',        title: 'Oportunidades' },
+      { label: 'este mês',          value: 'R$ 24.680', title: 'Faturamento' },
+    ];
+
+    const toneStyles = {
+      error:   { bg: 'var(--feedback-error-bg)',   fg: 'var(--feedback-error-fg)' },
+      neutral: { bg: 'var(--color-info-bg)',        fg: 'var(--text-primary)' },
+      warning: { bg: '#F3E4C8',                     fg: '#8A5A2B' },
+    };
+
+    container.innerHTML = `
+      <div style="font-family: var(--font-body); font-size: 13px; font-weight: 700; letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--text-muted); margin-bottom: 18px;">Bom dia, Ana</div>
+      <div style="display: flex; gap: 14px; margin-bottom: 24px;">
+        ${cards.map(c => `
+          <div style="flex: 1; background: var(--color-light-cream); border-radius: 16px; padding: 16px; min-width: 0;">
+            <div style="font-family: var(--font-display); font-size: 22px; font-weight: 600; color: var(--text-primary);">${c.value}</div>
+            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 2px;">${c.label}</div>
+          </div>
+        `).join('')}
+      </div>
+      <table style="width: 100%; border-collapse: collapse; font-family: var(--font-body);">
+        <thead><tr>
+          <th style="text-align: left; font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; padding: 0 8px 10px; border-bottom: 1px solid var(--border-default);">Cliente</th>
+          <th style="text-align: left; font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; padding: 0 8px 10px; border-bottom: 1px solid var(--border-default);">Retorno</th>
+          <th style="text-align: left; font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; padding: 0 8px 10px; border-bottom: 1px solid var(--border-default);">Status</th>
+        </tr></thead>
+        <tbody>
+          ${rows.map((r, i) => `
+            <tr>
+              <td style="padding: 12px 8px; font-size: 14px; color: var(--text-primary); border-bottom: ${i === rows.length - 1 ? 'none' : '1px solid var(--border-default)'};">${r.name}</td>
+              <td style="padding: 12px 8px; font-size: 14px; color: var(--text-secondary); border-bottom: ${i === rows.length - 1 ? 'none' : '1px solid var(--border-default)'};">${r.next}</td>
+              <td style="padding: 12px 8px; border-bottom: ${i === rows.length - 1 ? 'none' : '1px solid var(--border-default)'};"><span style="display:inline-flex; font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 999px; background: ${toneStyles[r.tone].bg}; color: ${toneStyles[r.tone].fg};">${r.status}</span></td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    `;
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    renderDashboardMock(document.getElementById('dashboard-mock'));
+    renderDashboardMock(document.getElementById('dashboard-mock-2'));
+
+    if (window.lucide) {
+      window.lucide.createIcons();
+    } else {
+      const interval = setInterval(function () {
+        if (window.lucide) {
+          window.lucide.createIcons();
+          clearInterval(interval);
+        }
+      }, 100);
+      setTimeout(function () { clearInterval(interval); }, 3000);
+    }
+  });
+</script>
+</body>
+</html>
