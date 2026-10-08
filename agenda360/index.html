@@ -1,607 +1,782 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Agenda 360 — Transforme sua carteira em faturamento</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agenda 360. Sua próxima cliente já está na sua lista</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Serif+Display:ital@0;1&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  /* ---- Tokens: Cores ---- */
-  :root {
-    --color-warm-nude: #D8B08C;
-    --color-light-cream: #F7F2EC;
-    --color-off-white: #FCFAF8;
-    --color-espresso: #6D4C41;
-    --color-soft-brown: #8D6E63;
-    --color-warm-gray: #A8A29E;
-    --color-charcoal: #2B2B2B;
-    --color-nude-dark: #C89D74;
-    --color-success: #8FAE8B;
-    --color-error: #D07A63;
-    --color-info-bg: #E8D8C5;
-    --color-espresso-hover: #7d584c;
-    --color-espresso-press: #5a3d34;
-    --color-warm-nude-hover: #e2c1a0;
-    --color-warm-nude-press: #cda078;
-    --color-success-bg: #EAF1E9;
-    --color-error-bg: #FBEAE6;
-    --color-border-hairline: #E8D8C5;
+  :root{
+    --off-white:#FCFAF8;
+    --light-cream:#F7F2EC;
+    --areia:#E8D8C5;
+    --areia-2:#F0E4D4;
+    --warm-nude:#D8B08C;
+    --nude-escuro:#C89D74;
+    --espresso:#6D4C41;
+    --soft-brown:#8D6E63;
+    --warm-gray:#A8A29E;
+    --charcoal:#2B2B2B;
+    --texto:#3D3833;
+    --sage:#8FAE8B;
+    --sage-forte:#4C6B49;
+    --terracota:#D07A63;
+    --acao:#D2542F;
+    --acao-forte:#8B3419;
+    --acao-2:#E8944A;
+    --acao-suave:#FBEDE6;
+    --comp-neg-bg:#F7F1E9;
+    --comp-pos-bg:#F1F5EF;
+    --icon-neg-bg:rgba(208,122,99,0.16);
+    --icon-pos-bg:rgba(76,107,73,0.14);
+    --grad:linear-gradient(96deg, var(--acao) 0%, var(--acao-2) 100%);
+    --r-pill:999px;
+    --r-card:24px;
+    --r-md:18px;
+    --r-chip:10px;
+    --sh-soft:0 8px 24px rgba(109,76,65,0.06);
+    --sh-med:0 16px 40px rgba(109,76,65,0.08);
+    --sh-elev:0 24px 60px rgba(109,76,65,0.10);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    background:var(--off-white);
+    color:var(--texto);
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  img{max-width:100%;display:block;}
+  section{padding:96px 24px;}
+  .wrap{max-width:1120px;margin:0 auto;}
+  .wrap-narrow{max-width:720px;margin:0 auto;}
+  .eyebrow{display:inline-block;font-size:0.75rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--acao);margin-bottom:16px;}
+  h1,h2,h3,h4{font-weight:700;line-height:1.15;letter-spacing:-0.02em;color:var(--charcoal);}
+  h1{font-size:clamp(2rem,4.4vw,3.2rem);}
+  h2{font-size:clamp(1.6rem,3.2vw,2.4rem);}
+  h3{font-size:clamp(1.25rem,2.2vw,1.6rem);}
+  p{font-size:1.05rem;color:var(--texto);}
+  .center{text-align:center;}
+  .grad-text{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .scroll-reveal{opacity:0;transform:translateY(28px);transition:opacity .6s ease, transform .6s ease;}
+  .scroll-reveal.visible{opacity:1;transform:translateY(0);}
 
-    --surface-page: var(--color-off-white);
-    --surface-card: #FFFFFF;
-    --surface-sunken: var(--color-light-cream);
-    --surface-inverse: var(--color-charcoal);
-    --surface-accent-soft: var(--color-info-bg);
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:18px 38px;border-radius:var(--r-pill);
+    font-size:1rem;font-weight:700;letter-spacing:-0.01em;text-decoration:none;border:none;cursor:pointer;
+    transition:transform .25s ease, box-shadow .25s ease;}
+  .btn-primary{background:var(--grad);color:#fff;box-shadow:var(--sh-med);}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:var(--sh-elev);}
+  .btn-light{background:#fff;color:var(--acao-forte);box-shadow:var(--sh-med);}
+  .btn-light:hover{transform:translateY(-2px);box-shadow:var(--sh-elev);}
+  .btn svg{width:18px;height:18px;flex-shrink:0;}
+  .icon{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;}
 
-    --text-primary: var(--color-charcoal);
-    --text-secondary: var(--color-soft-brown);
-    --text-muted: var(--color-warm-gray);
-    --text-on-accent: var(--color-off-white);
-    --text-link: var(--color-espresso);
-    --text-link-hover: var(--color-warm-nude-press);
+  header{position:sticky;top:0;z-index:100;background:var(--off-white);border-bottom:1px solid var(--areia);padding:16px 24px;}
+  header .wrap{display:flex;align-items:center;justify-content:center;}
+  header img{height:34px;width:auto;}
 
-    --border-default: var(--color-border-hairline);
-    --border-strong: var(--color-soft-brown);
-    --border-focus: var(--color-warm-nude);
+  /* HERO */
+  .hero{background:linear-gradient(160deg, var(--light-cream) 0%, var(--off-white) 60%);padding-top:72px;padding-bottom:64px;}
+  .hero .wrap-narrow{text-align:center;}
+  .hero h1{margin-bottom:20px;}
+  .hero p{margin-bottom:28px;font-size:1.15rem;max-width:600px;margin-left:auto;margin-right:auto;}
+  .price-line{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:20px;font-size:0.92rem;color:var(--soft-brown);}
+  .price-line strong{color:var(--charcoal);font-size:1.05rem;}
 
-    --accent-primary: var(--color-espresso);
-    --accent-primary-hover: var(--color-espresso-hover);
-    --accent-primary-press: var(--color-espresso-press);
-    --accent-secondary: var(--color-warm-nude);
-    --accent-secondary-hover: var(--color-warm-nude-hover);
-
-    --feedback-success-fg: #4C6B49;
-    --feedback-success-bg: var(--color-success-bg);
-    --feedback-error-fg: var(--color-error);
-    --feedback-error-bg: var(--color-error-bg);
-    --feedback-info-fg: var(--color-espresso);
-    --feedback-info-bg: var(--color-info-bg);
-
-    /* ---- Tokens: Tipografia ---- */
-    --font-display: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
-    --font-display-alt: 'DM Serif Display', 'Playfair Display', serif;
-    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-
-    --text-h1-size: 56px;   --text-h1-lh: 64px;   --text-h1-weight: 700;
-    --text-h2-size: 42px;   --text-h2-lh: 52px;   --text-h2-weight: 600;
-    --text-h3-size: 30px;   --text-h3-lh: 40px;   --text-h3-weight: 600;
-    --text-h4-size: 24px;   --text-h4-lh: 32px;   --text-h4-weight: 500;
-    --text-body-size: 18px; --text-body-lh: 28px; --text-body-weight: 400;
-    --text-small-size: 15px;--text-small-lh: 24px;--text-small-weight: 400;
-    --text-caption-size: 13px; --text-caption-lh: 20px; --text-caption-weight: 400;
-
-    --tracking-wordmark: 0.08em;
-    --tracking-eyebrow: 0.12em;
-    --tracking-normal: 0;
-
-    /* ---- Tokens: Espaçamento ---- */
-    --space-1: 4px;  --space-2: 8px;   --space-3: 12px;  --space-4: 16px;
-    --space-5: 24px; --space-6: 32px;  --space-7: 40px;  --space-8: 48px;
-    --space-9: 60px; --space-10: 64px; --space-11: 80px; --space-12: 96px;
-
-    /* ---- Tokens: Efeitos ---- */
-    --radius-pill: 999px;
-    --radius-input: 18px;
-    --radius-card: 24px;
-    --radius-sm: 10px;
-    --radius-circle: 50%;
-
-    --shadow-soft: 0 8px 24px rgba(109, 76, 65, 0.06);
-    --shadow-medium: 0 16px 40px rgba(109, 76, 65, 0.08);
-    --shadow-elevated: 0 24px 60px rgba(109, 76, 65, 0.10);
-
-    --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
-    --duration-fast: 150ms;
-    --duration-standard: 250ms;
-    --duration-slow: 400ms;
+  /* IDENTIFICACAO */
+  .identificacao{background:var(--off-white);padding:56px 24px;}
+  .identificacao-intro{max-width:640px;margin:0 auto 28px;text-align:center;}
+  .identificacao-grid{display:grid;grid-template-columns:1fr 0.95fr 1fr;gap:18px;align-items:center;
+    grid-template-areas:"t1 photo t3" "t2 photo t4";max-width:1080px;margin:0 auto;}
+  .thought{background:var(--light-cream);border:1px solid rgba(200,157,116,0.25);border-radius:var(--r-md);padding:20px 22px;box-shadow:var(--sh-soft);position:relative;}
+  .thought::before{content:'\201C';position:absolute;top:6px;left:14px;font-size:1.8rem;color:var(--warm-nude);font-family:Georgia,serif;line-height:1;}
+  .thought p{font-size:1.05rem;line-height:1.5;color:var(--charcoal);font-weight:600;padding-left:12px;}
+  .t1{grid-area:t1;} .t2{grid-area:t2;} .t3{grid-area:t3;} .t4{grid-area:t4;}
+  .identificacao-photo{grid-area:photo;border-radius:var(--r-card);overflow:hidden;box-shadow:var(--sh-elev);align-self:center;}
+  .identificacao-photo img{width:100%;height:100%;object-fit:cover;aspect-ratio:4/5;}
+  .identificacao-fechamento{max-width:640px;margin:28px auto 0;text-align:center;}
+  .identificacao-fechamento p{margin-bottom:8px;}
+  .identificacao-fechamento strong{color:var(--acao-forte);}
+  @media (max-width:860px){
+    .identificacao{padding:64px 24px;}
+    .identificacao-grid{grid-template-columns:1fr;grid-template-areas:"t1" "t2" "photo" "t3" "t4";max-width:520px;}
+    .t3{max-width:100%;}
+    .thought{padding:22px 24px;}
+    .thought p{font-size:1.05rem;}
+    .identificacao-photo img{aspect-ratio:4/5;}
   }
 
-  /* ---- Reset ---- */
-  *, *::before, *::after { box-sizing: border-box; }
-  html, body { margin: 0; background: var(--surface-page); }
-  a { color: var(--text-link); text-decoration: none; }
-  a:hover { color: var(--text-link-hover); }
+  /* PARTE DIFICIL */
+  .parte-dificil{background:var(--light-cream);}
+  .parte-dificil .wrap-narrow{text-align:center;}
+  .parte-dificil p{margin-bottom:10px;}
+  .parte-dificil .bold-line{display:block;font-weight:700;color:var(--charcoal);}
+  .parte-dificil h3{margin-top:24px;color:var(--acao-forte);}
 
-  /* ---- Tipografia utilitária ---- */
-  .eyebrow {
-    font-family: var(--font-body);
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: var(--tracking-eyebrow);
-    text-transform: uppercase;
-    color: var(--accent-primary);
-  }
-  .h1 {
-    font-family: var(--font-display);
-    font-size: var(--text-h1-size);
-    line-height: var(--text-h1-lh);
-    font-weight: var(--text-h1-weight);
-    color: var(--text-primary);
-    margin: 0;
-  }
-  .h2 {
-    font-family: var(--font-display);
-    font-size: var(--text-h2-size);
-    line-height: var(--text-h2-lh);
-    font-weight: var(--text-h2-weight);
-    color: var(--text-primary);
-    margin: 0;
-  }
-  .h3 {
-    font-family: var(--font-display);
-    font-size: var(--text-h3-size);
-    line-height: var(--text-h3-lh);
-    font-weight: var(--text-h3-weight);
-    color: var(--text-primary);
-    margin: 0;
-  }
-  .body-lg {
-    font-family: var(--font-body);
-    font-size: var(--text-body-size);
-    line-height: var(--text-body-lh);
-    color: var(--text-secondary);
-    margin: 0;
-  }
-
-  /* ---- Botão ---- */
-  .btn {
-    font-family: var(--font-body);
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 1;
-    border-radius: var(--radius-pill);
-    height: 52px;
-    padding: 0 28px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    border: none;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: background var(--duration-fast) var(--ease-standard),
-                color var(--duration-fast) var(--ease-standard);
-    text-decoration: none;
-  }
-  .btn-primary {
-    background: var(--accent-primary);
-    color: var(--text-on-accent);
-  }
-  .btn-primary:hover {
-    background: var(--accent-primary-hover);
-    color: var(--text-on-accent);
-  }
-  .btn-nude {
-    background: var(--color-warm-nude);
-    color: var(--text-primary);
-  }
-  .btn-nude:hover {
-    background: var(--color-warm-nude-hover);
-    color: var(--text-primary);
-  }
-  .btn svg {
-    flex-shrink: 0;
+  /* COMPARATIVO v3 */
+  .comparativo{background:var(--off-white);}
+  .comparativo-tag{text-align:center;}
+  .comparativo h1{margin-bottom:48px;}
+  .comp-outer{position:relative;max-width:1000px;margin:0 auto;}
+  .comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:stretch;}
+  .comp-vs{position:absolute;top:220px;left:50%;transform:translate(-50%,-50%);width:56px;height:56px;border-radius:50%;
+    background:var(--light-cream);border:1px solid rgba(141,110,99,0.25);display:flex;align-items:center;justify-content:center;
+    font-weight:800;color:var(--espresso);font-size:0.9rem;z-index:5;box-shadow:var(--sh-soft);}
+  .comp-card{border-radius:var(--r-card);padding:32px;display:flex;flex-direction:column;}
+  .comp-card.negativo{background:var(--comp-neg-bg);}
+  .comp-card.positivo{background:var(--comp-pos-bg);}
+  .comp-label{display:inline-flex;align-items:center;gap:8px;background:#fff;border-radius:var(--r-pill);padding:8px 16px 8px 8px;
+    font-size:0.78rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:18px;box-shadow:var(--sh-soft);align-self:flex-start;}
+  .comp-label .badge-icon{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .comp-card.negativo .comp-label .badge-icon{background:var(--icon-neg-bg);color:var(--terracota);}
+  .comp-card.positivo .comp-label .badge-icon{background:var(--icon-pos-bg);color:var(--sage-forte);}
+  .comp-card.negativo .comp-label{color:var(--espresso);}
+  .comp-card.positivo .comp-label{color:var(--espresso);}
+  .comp-label .badge-icon .icon{width:14px;height:14px;}
+  .comp-card h3{margin-bottom:20px;}
+  .comp-photo-wrap{border-radius:var(--r-md);overflow:hidden;margin-bottom:24px;aspect-ratio:4/3;box-shadow:var(--sh-soft);}
+  .comp-photo-wrap img{width:100%;height:100%;object-fit:cover;}
+  .comp-list{list-style:none;display:flex;flex-direction:column;gap:18px;flex:1;}
+  .comp-list li{display:flex;align-items:flex-start;gap:14px;}
+  .comp-bullet-icon{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+  .comp-card.negativo .comp-bullet-icon{background:var(--icon-neg-bg);color:var(--terracota);}
+  .comp-card.positivo .comp-bullet-icon{background:var(--icon-pos-bg);color:var(--sage-forte);}
+  .comp-bullet-icon .icon{width:15px;height:15px;stroke-width:2.5;}
+  .comp-bullet-text .tit{font-weight:700;color:var(--charcoal);font-size:0.98rem;margin-bottom:2px;}
+  .comp-bullet-text .sub{font-size:0.88rem;color:var(--soft-brown);}
+  @media (max-width:860px){
+    .comp-grid{grid-template-columns:1fr;}
+    .comp-vs{display:none;}
+    .comp-photo-wrap{aspect-ratio:3/4;max-width:210px;margin-left:auto;margin-right:auto;}
+    .comp-card.negativo .comp-photo-wrap img{object-position:center top;}
+    .comp-card.positivo .comp-photo-wrap img{object-position:center top;}
   }
 
-  /* ---- Seções ---- */
-  .lp-section { padding-left: 32px; padding-right: 32px; }
+  /* PRODUTO POR DENTRO */
+  .produto-dentro{background:var(--light-cream);}
+  .produto-dentro .wrap-narrow{text-align:center;margin-bottom:40px;}
+  .vedete{border-radius:var(--r-card);overflow:hidden;box-shadow:var(--sh-elev);margin:0 auto 48px;max-width:920px;border:1px solid var(--areia);}
+  .callouts-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:1000px;margin:0 auto;}
+  .callout-chip{background:#fff;border:1px solid var(--areia);border-radius:var(--r-md);padding:20px;box-shadow:var(--sh-soft);}
+  .callout-chip .tit{font-weight:700;color:var(--acao-forte);margin-bottom:6px;font-size:0.95rem;}
+  .callout-chip .desc{font-size:0.85rem;color:var(--soft-brown);}
+  @media (max-width:768px){.callouts-row{grid-template-columns:1fr 1fr;}}
 
-  /* ---- FAQ ---- */
-  .faq-item summary { cursor: pointer; }
-  .faq-item summary::-webkit-details-marker { display: none; }
-  .faq-item[open] summary { color: var(--accent-primary); }
+  /* METODO VOLTA v2 - editorial */
+  .metodo{background:var(--off-white);}
+  .metodo-intro{max-width:640px;margin:0 auto 64px;text-align:center;}
+  .volta-row{display:flex;justify-content:space-between;gap:16px;max-width:1040px;margin:0 auto;position:relative;padding-top:8px;}
+  .volta-row::before{content:'';position:absolute;top:78px;left:6%;right:6%;height:1px;background:var(--areia);z-index:0;}
+  .volta-step{flex:1;text-align:center;position:relative;z-index:1;}
+  .volta-letter{font-size:3.2rem;font-weight:800;color:var(--espresso);line-height:1;margin-bottom:6px;}
+  .volta-dot{width:14px;height:14px;border-radius:50%;background:var(--acao);margin:0 auto 14px;border:3px solid var(--off-white);box-shadow:0 0 0 1px var(--areia);}
+  .volta-icon{width:34px;height:34px;color:var(--terracota);margin:0 auto 12px;}
+  .volta-icon .icon{width:100%;height:100%;}
+  .volta-name{font-weight:700;font-size:0.9rem;color:var(--charcoal);text-transform:uppercase;letter-spacing:0.03em;margin-bottom:8px;}
+  .volta-phrase{font-size:0.85rem;color:var(--soft-brown);line-height:1.5;}
+  .volta-cycle{text-align:center;margin-top:40px;}
+  .volta-cycle span{display:inline-flex;align-items:center;gap:8px;background:var(--light-cream);padding:10px 20px;border-radius:var(--r-pill);
+    font-weight:700;color:var(--espresso);font-size:0.85rem;letter-spacing:0.04em;box-shadow:var(--sh-soft);}
+  .volta-cycle .icon{width:16px;height:16px;color:var(--acao);}
+  @media (max-width:860px){
+    .volta-row{flex-direction:column;gap:32px;max-width:420px;padding-top:0;}
+    .volta-row::before{display:none;}
+    .volta-step{display:grid;grid-template-columns:56px 1fr;grid-template-areas:"letter icon" "letter name" "letter phrase";column-gap:16px;row-gap:4px;text-align:left;align-items:start;position:relative;}
+    .volta-step:not(:last-child)::after{content:'';position:absolute;left:27px;top:60px;bottom:-32px;width:1px;background:var(--areia);}
+    .volta-letter{grid-area:letter;font-size:2rem;align-self:start;}
+    .volta-dot{display:none;}
+    .volta-icon{grid-area:icon;margin:0 0 4px;}
+    .volta-name{grid-area:name;text-align:left;}
+    .volta-phrase{grid-area:phrase;text-align:left;}
+  }
 
-  /* ---- Responsivo ---- */
-  @media (max-width: 860px) {
-    /* Grids */
-    .lp-hero {
-      grid-template-columns: 1fr !important;
-      gap: 40px !important;
-      padding: 48px 20px 40px !important;
-      text-align: center !important;
-    }
-    .lp-grid-3 {
-      grid-template-columns: 1fr !important;
-      gap: 24px !important;
-    }
-    .lp-grid-2 {
-      grid-template-columns: 1fr !important;
-      gap: 32px !important;
-    }
-    .lp-section {
-      padding-left: 20px !important;
-      padding-right: 20px !important;
-    }
+  /* DIFERENCIAL v2 */
+  .diferencial{background:var(--light-cream);}
+  .dif-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:48px;align-items:center;max-width:1080px;margin:0 auto;}
+  .dif-headline h1{margin-bottom:0;}
+  .dif-card{background:#fff;border-radius:var(--r-card);padding:36px;box-shadow:var(--sh-med);border:1px solid var(--areia);}
+  .dif-arg{display:flex;flex-direction:column;gap:12px;}
+  .dif-arg-icon{width:36px;height:36px;border-radius:50%;background:var(--acao-suave);display:flex;align-items:center;justify-content:center;color:var(--acao-forte);}
+  .dif-arg-icon .icon{width:18px;height:18px;}
+  .dif-arg .tit{font-weight:700;font-size:1.05rem;color:var(--charcoal);}
+  .dif-arg p{font-size:0.95rem;}
+  .dif-divider{height:1px;background:var(--areia);margin:28px 0;}
+  @media (max-width:900px){.dif-grid{grid-template-columns:1fr;}}
 
-    /* Tipografia */
-    .h1 { font-size: 32px !important; line-height: 40px !important; }
-    .h2 { font-size: 26px !important; line-height: 34px !important; }
+  /* DINHEIRO ESCONDIDO */
+  .dinheiro{background:var(--areia-2);}
+  .dinheiro .wrap-narrow{text-align:center;}
+  .dinheiro-num{font-size:clamp(2rem,6vw,3.2rem);font-weight:800;color:var(--acao-forte);margin:20px 0 8px;}
+  .dinheiro-card{display:inline-block;background:#fff;border-radius:var(--r-card);box-shadow:var(--sh-elev);padding:8px;margin:28px 0;}
+  .dinheiro-card img{border-radius:calc(var(--r-card) - 8px);max-width:320px;}
+  .dinheiro-eq{font-size:1.4rem;font-weight:700;color:var(--charcoal);background:#fff;display:inline-block;padding:14px 28px;border-radius:var(--r-md);margin:16px 0;box-shadow:var(--sh-soft);}
+  .dinheiro-chips{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin:28px 0;}
+  .dinheiro-chips span{width:52px;height:52px;border-radius:50%;border:1.5px solid var(--warm-nude);background:#fff;
+    display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--espresso);font-size:0.95rem;}
 
-    /* Hero: centralização e botões */
-    .lp-hero .body-lg { max-width: 100% !important; }
-    .hero-cta-group {
-      flex-direction: column !important;
-      align-items: center !important;
-      width: 100% !important;
-      gap: 16px !important;
-    }
-    .hero-cta-group .btn {
-      width: 100% !important;
-      white-space: normal !important;
-      height: auto !important;
-      min-height: 52px !important;
-      padding: 14px 20px !important;
-      line-height: 1.4 !important;
-      text-align: center !important;
-    }
+  /* GRANDE VIRADA v5 - dois funis empilhados */
+  .virada{background:var(--acao-suave);}
+  .virada .wrap-narrow{text-align:center;}
+  .virada p{margin-bottom:10px;}
+  .virada h3{margin:18px 0;color:var(--acao-forte);}
+  .virada-funis{max-width:640px;margin:40px auto 0;}
+  .virada-funil{border-radius:var(--r-card);padding:32px 28px;box-shadow:var(--sh-soft);text-align:left;}
+  .virada-funil.aquisicao{background:#fff;border:1px solid var(--warm-nude);}
+  .virada-funil.relacionamento{background:var(--espresso);}
+  .virada-funil-tag{font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--soft-brown);margin-bottom:12px;}
+  .virada-funil.relacionamento .virada-funil-tag{color:var(--areia);}
+  .virada-funil-sub{font-weight:700;font-size:1.1rem;color:var(--charcoal);margin-bottom:10px;}
+  .virada-funil.relacionamento .virada-funil-sub{color:#fff;}
+  .virada-funil p.desc{font-size:1.05rem;line-height:1.5;color:var(--charcoal);margin-bottom:16px;}
+  .virada-funil.relacionamento p.desc{color:#fff;}
+  .virada-funil-flow{font-weight:700;font-size:0.95rem;color:var(--acao-forte);margin-bottom:10px;line-height:1.4;}
+  .virada-funil.relacionamento .virada-funil-flow{color:var(--acao-2);}
+  .virada-funil-objetivo{font-size:0.88rem;font-style:italic;color:var(--soft-brown);margin:0;}
+  .virada-funil.relacionamento .virada-funil-objetivo{color:var(--areia);}
+  .virada-marcador{text-align:center;margin:18px 0;}
+  .virada-marcador span{display:inline-block;background:#fff;border:1px solid var(--warm-nude);color:var(--acao-forte);padding:8px 20px;border-radius:var(--r-pill);font-size:0.78rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;}
+  .virada-conclusao{max-width:720px;margin:40px auto 0;text-align:center;}
 
-    /* Padding horizontal uniforme em todas as seções */
-    section {
-      padding-left: 20px !important;
-      padding-right: 20px !important;
-    }
+  /* OFERTA */
+  .oferta{background:var(--light-cream);}
+  .oferta .wrap-narrow-full{max-width:1120px;}
+  .oferta-list{list-style:none;display:flex;flex-direction:column;gap:18px;margin:32px 0 48px;max-width:640px;}
+  .oferta-list li{display:flex;align-items:flex-start;gap:14px;font-weight:600;color:var(--charcoal);font-size:1.02rem;}
+  .oferta-list .icon{color:var(--sage-forte);background:var(--icon-pos-bg);border-radius:50%;padding:6px;width:30px;height:30px;flex-shrink:0;margin-top:2px;}
+  .oferta-box{background:#fff;border:1px solid var(--areia);box-shadow:var(--sh-med);border-radius:var(--r-card);padding:36px;max-width:520px;}
+  .oferta-box h3{margin-bottom:6px;}
+  .oferta-box .price{font-size:2.4rem;font-weight:800;color:var(--charcoal);margin:18px 0 4px;}
+  .oferta-box .sub{color:var(--soft-brown);font-size:0.9rem;margin-bottom:24px;}
+  .oferta-box .destaque{font-size:1.05rem;font-weight:700;color:var(--acao-forte);margin-top:18px;}
 
-    /* Itens de grid-3: centralizar em mobile */
-    .lp-grid-3 > div { text-align: center !important; }
-    /* Ícones dos cards: centralizar horizontalmente */
-    .lp-grid-3 > div > div:first-child {
-      margin-left: auto !important;
-      margin-right: auto !important;
-    }
+  /* GARANTIA */
+  .garantia-sec{background:var(--off-white);}
+  .cards-2{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+  .card-suave{background:#fff;border-radius:var(--r-card);padding:36px 32px;box-shadow:var(--sh-soft);}
+  .card-suave .icon-wrap{width:52px;height:52px;border-radius:var(--r-chip);background:var(--acao-suave);display:flex;align-items:center;justify-content:center;margin-bottom:20px;}
+  .card-suave .icon-wrap .icon{color:var(--acao-forte);width:26px;height:26px;}
+  .card-suave h3{margin-bottom:12px;}
+  .card-suave p{margin-bottom:12px;}
+  .card-suave .destaque{font-weight:700;color:var(--espresso);}
 
-    /* Botão primário nos CTAs internos das seções */
-    .btn-primary {
-      white-space: normal !important;
-      height: auto !important;
-      min-height: 52px !important;
-      padding: 14px 20px !important;
-      line-height: 1.4 !important;
-    }
+  /* QUEM SOU EU */
+  .autor{background:var(--off-white);}
+  .autor-grid{display:grid;grid-template-columns:0.8fr 1.2fr;gap:56px;align-items:center;}
+  .autor-photo{border-radius:var(--r-card);overflow:hidden;border:3px solid var(--nude-escuro);box-shadow:var(--sh-elev);aspect-ratio:4/5;}
+  .autor-photo img{width:100%;height:100%;object-fit:cover;}
+  .autor .quote{font-size:1.35rem;font-weight:600;color:var(--charcoal);margin:20px 0;line-height:1.4;}
+  .autor .fechamento{margin-top:24px;padding:20px 24px;background:var(--acao-suave);border-radius:var(--r-md);font-weight:700;color:var(--acao-forte);}
 
-    /* Footer em coluna */
-    footer > div {
-      flex-direction: column !important;
-      align-items: center !important;
-      text-align: center !important;
-      gap: 8px !important;
-    }
+  /* FAQ */
+  .faq{background:var(--light-cream);}
+  .faq-list{max-width:760px;margin:0 auto;}
+  .faq-item{border-bottom:1px solid var(--areia);}
+  .faq-question{width:100%;padding:22px 0;display:flex;justify-content:space-between;align-items:center;gap:16px;
+    background:none;border:none;cursor:pointer;font-size:1.05rem;font-weight:700;text-align:left;color:var(--charcoal);font-family:inherit;}
+  .faq-question .icon{transition:transform .3s ease;color:var(--acao);flex-shrink:0;}
+  .faq-question.active .icon{transform:rotate(180deg);}
+  .faq-answer{max-height:0;overflow:hidden;transition:max-height .4s ease;}
+  .faq-answer.open{max-height:400px;}
+  .faq-answer p,.faq-answer strong{padding-bottom:22px;display:block;color:var(--soft-brown);}
 
-    /* Mock dashboard: padding reduzido */
-    #dashboard-mock,
-    #dashboard-mock-2 {
-      padding: 20px !important;
-    }
+  /* CTA FINAL */
+  .cta-final{background:var(--grad);color:#fff;}
+  .cta-final .eyebrow{color:rgba(255,255,255,0.85);}
+  .cta-final h1,.cta-final h2{color:#fff;}
+  .cta-final .wrap-narrow{text-align:center;}
+  .cta-final p{color:rgba(255,255,255,0.88);margin-bottom:8px;}
+  .cta-final .fechamento{font-weight:700;font-size:1.15rem;margin:22px 0 30px;}
+  .cta-final .price{font-size:1.4rem;font-weight:800;margin:20px 0 4px;}
+  .cta-final .sub{font-size:0.9rem;color:rgba(255,255,255,0.75);margin-bottom:26px;}
+
+  footer{background:var(--off-white);padding:48px 24px 140px;text-align:center;border-top:1px solid var(--areia);}
+  footer .brand{font-weight:800;font-size:1.1rem;color:var(--charcoal);margin-bottom:6px;}
+  footer p{font-size:0.85rem;color:var(--warm-gray);margin-bottom:4px;}
+  footer p a{color:var(--warm-gray);text-decoration:underline;text-underline-offset:2px;}
+  footer p a:hover{color:var(--acao-forte);}
+
+  /* CTA FLUTUANTE GLOBAL */
+  .cta-flutuante{
+    position:fixed;right:28px;bottom:28px;z-index:200;
+    display:inline-flex;align-items:center;gap:9px;
+    background:var(--grad);color:#fff;text-decoration:none;
+    height:54px;padding:0 26px;border-radius:var(--r-pill);
+    font-weight:700;font-size:0.9rem;letter-spacing:0.03em;text-transform:uppercase;
+    box-shadow:var(--sh-med);
+    opacity:0;transform:translateY(8px);pointer-events:none;
+    transition:opacity .3s ease, transform .3s ease, box-shadow .25s ease;
+  }
+  .cta-flutuante.visible{opacity:1;transform:translateY(0);pointer-events:auto;}
+  .cta-flutuante:hover{box-shadow:var(--sh-elev);transform:translateY(-1px);filter:brightness(1.04);}
+  .cta-flutuante:active{transform:translateY(0);}
+  .cta-flutuante .icon{width:19px;height:19px;flex-shrink:0;}
+  .cta-flutuante:focus-visible{outline:2px solid var(--espresso);outline-offset:3px;}
+  @media (max-width:640px){
+    .cta-flutuante{right:12px;bottom:calc(12px + env(safe-area-inset-bottom));height:50px;padding:0 20px;font-size:0.8rem;max-width:75vw;}
+    .cta-flutuante .icon{width:17px;height:17px;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .cta-flutuante{transition:opacity .01s linear;}
+  }
+
+  @media (max-width:900px){
+    .autor-grid{grid-template-columns:1fr;}
+    .cards-2{grid-template-columns:1fr;}
+  }
+  @media (max-width:768px){
+    section{padding:64px 20px;}
+    .hero{padding-top:48px;}
   }
 </style>
 </head>
-<body style="font-family: var(--font-body); background: var(--surface-page); overflow-x: hidden;">
+<body>
 
-  <!-- NAV -->
-  <header style="position: sticky; top: 0; z-index: 50; background: rgba(252,250,248,0.92); backdrop-filter: blur(6px); border-bottom: 1px solid var(--border-default);">
-    <div style="max-width: 1280px; margin: 0 auto; padding: 28px 32px; display: flex; align-items: center; justify-content: center;">
-      <div style="display: flex; align-items: baseline; gap: 10px;">
-        <span style="font-family: var(--font-display); font-size: 36px; font-weight: 600; color: var(--accent-primary);">agenda</span>
-        <span style="font-family: var(--font-display); font-size: 36px; font-weight: 600; color: var(--color-warm-nude);">360</span>
+<header>
+  <div class="wrap"><img src="/agenda360/agenda360-lockup-transparent.png" alt="Agenda 360"></div>
+</header>
+
+<section class="hero">
+  <div class="wrap wrap-narrow scroll-reveal">
+    <span class="eyebrow">Para esteticistas que trabalham sozinhas e já têm uma carteira de clientes</span>
+    <h1>Sua próxima cliente não precisa vir do Instagram. Ela provavelmente já está na sua lista de contatos.</h1>
+    <p>A Agenda 360 mostra todos os dias quem está na hora de voltar e quem merece uma mensagem, para você transformar clientes que já confiam no seu trabalho em novas oportunidades de agendamento e mais faturamento.</p>
+    <a href="https://pay.hotmart.com/V107112561K" class="btn btn-primary">Quero descobrir quem está na hora de voltar
+      <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+    </a>
+    <div class="price-line"><strong>R$ 47,90/mês</strong> • Cancele quando quiser</div>
+  </div>
+</section>
+
+<section class="identificacao">
+  <div class="wrap">
+    <div class="identificacao-intro scroll-reveal">
+      <span class="eyebrow">A verdade que ninguém conta</span>
+      <h1>Pensamentos que você já teve, mas nunca disse em voz alta.</h1>
+    </div>
+    <div class="identificacao-grid scroll-reveal">
+      <div class="thought t1"><p>"Minha agenda tem horários vagos essa semana e eu nem sei para qual cliente mandar mensagem."</p></div>
+      <div class="thought t2"><p>"Eu sei que tenho clientes que já poderiam ter voltado, mas não lembro quem são."</p></div>
+      <div class="identificacao-photo"><img src="/agenda360/identificacao.png" alt="Esteticista autônoma sentada em seu espaço de atendimento olhando o celular entre consultas"></div>
+      <div class="thought t3"><p>"Toda vez que preciso aumentar os agendamentos e faturar mais, minha primeira reação é pensar no que postar no Instagram."</p></div>
+      <div class="thought t4"><p>"Já atendi muitas clientes, tenho uma lista grande de contatos, mas sinto que estou sempre começando do zero."</p></div>
+    </div>
+    <div class="identificacao-fechamento scroll-reveal">
+      <p>Se algum desses pensamentos parece familiar, talvez o problema não seja falta de clientes.</p>
+      <p><strong>Talvez esteja faltando uma forma simples de trabalhar melhor as clientes que você já conquistou.</strong></p>
+    </div>
+  </div>
+</section>
+
+<section class="parte-dificil">
+  <div class="wrap wrap-narrow scroll-reveal">
+    <h1>Você já fez a parte mais difícil: plantou a confiança dela.</h1>
+    <p>
+      <span class="bold-line">Ela já conhece você.</span>
+      <span class="bold-line">Ela já conhece seu trabalho.</span>
+      <span class="bold-line">Ela já confiou em você uma vez.</span>
+    </p>
+    <p>Essa confiança não nasce do nada. Ela é uma fruta que levou tempo pra amadurecer, atendimento a atendimento, até ficar pronta pra ser colhida outra vez.</p>
+    <p>Mesmo assim, na maioria das vezes essa fruta madura fica ali esperando. Não porque você não se importa, mas porque não tem como enxergar quem já está madura no meio de uma lista de contatos que só cresce. Sem essa visão, o caminho mais fácil vira sempre o mesmo: mais um post de antes e depois, mais um anúncio, mais uma desconhecida pra conquistar do zero.</p>
+    <h3>Você está indo cada vez mais longe atrás de fruta verde, enquanto a fruta madura da sua própria carteira cai no chão sem ninguém colher.</h3>
+  </div>
+</section>
+
+<section class="comparativo">
+  <div class="wrap">
+    <div class="comparativo-tag scroll-reveal">
+      <span class="eyebrow">Dois jeitos de olhar para seus clientes</span>
+      <h1>A diferença entre ter clientes e saber o que fazer com elas.</h1>
+    </div>
+    <div class="comp-outer scroll-reveal">
+      <span class="comp-vs">VS</span>
+      <div class="comp-grid">
+        <div class="comp-card negativo">
+          <span class="comp-label"><span class="badge-icon"><svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span>Sem a Agenda 360</span>
+          <h3>Trabalha no escuro e deixa oportunidades passarem.</h3>
+          <div class="comp-photo-wrap"><img src="/agenda360/comparativo-negativo-v2.png" alt="Esteticista tensa olhando o celular ao lado de uma agenda de papel cheia de anotações"></div>
+          <ul class="comp-list">
+            <li><span class="comp-bullet-icon"><svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span><div class="comp-bullet-text"><div class="tit">Abre a agenda vazia e não sabe por onde começar</div><div class="sub">Fica em paralisia tentando lembrar quem já devia ter voltado.</div></div></li>
+            <li><span class="comp-bullet-icon"><svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span><div class="comp-bullet-text"><div class="tit">Não sabe quanto ainda pode faturar com quem já é cliente dela</div><div class="sub">O dinheiro pode estar parado na própria carteira e ela nunca chega a ver esse número.</div></div></li>
+            <li><span class="comp-bullet-icon"><svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span><div class="comp-bullet-text"><div class="tit">Só descobre se o mês foi bom depois que o extrato fecha</div><div class="sub">Vive na incerteza até o último dia, sem controle sobre o que está por vir.</div></div></li>
+            <li><span class="comp-bullet-icon"><svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span><div class="comp-bullet-text"><div class="tit">Toma decisão no escuro sobre onde investir no estúdio</div><div class="sub">Sem dado nenhum, decide no feeling e às vezes erra.</div></div></li>
+          </ul>
+        </div>
+        <div class="comp-card positivo">
+          <span class="comp-label"><span class="badge-icon"><svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>Com a Agenda 360</span>
+          <h3>Sabe onde estão as oportunidades e quem contactar hoje.</h3>
+          <div class="comp-photo-wrap"><img src="/agenda360/comparativo-positivo-v2.png" alt="Esteticista tranquila olhando o celular com cards da Agenda 360 sobrepostos mostrando quem atender, quem contactar e o dinheiro parado na carteira"></div>
+          <ul class="comp-list">
+            <li><span class="comp-bullet-icon"><svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span><div class="comp-bullet-text"><div class="tit">Abre a Agenda 360 e sabe exatamente quem contatar hoje</div><div class="sub">Em cinco minutos, tem o plano do dia pronto, sem depender de memória.</div></div></li>
+            <li><span class="comp-bullet-icon"><svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span><div class="comp-bullet-text"><div class="tit">Vê o valor exato parado na carteira antes de decidir o próximo passo</div><div class="sub">Um número concreto, não uma sensação, guia a prioridade da semana.</div></div></li>
+            <li><span class="comp-bullet-icon"><svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span><div class="comp-bullet-text"><div class="tit">Sabe, logo no início da semana, qual é a receita mínima garantida</div><div class="sub">Planeja com um número real, não com expectativa.</div></div></li>
+            <li><span class="comp-bullet-icon"><svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span><div class="comp-bullet-text"><div class="tit">Usa o valor real da carteira para planejar o próximo investimento</div><div class="sub">Decide com base em número, não em intuição.</div></div></li>
+          </ul>
+        </div>
       </div>
     </div>
-  </header>
+  </div>
+</section>
 
-  <!-- HERO -->
-  <section class="lp-hero" style="max-width: 1280px; margin: 0 auto; padding: 96px 32px 80px; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 64px; align-items: center;">
-    <div>
-      <div class="eyebrow" style="margin-bottom: 20px;">PARA ESTETICISTAS AUTÔNOMAS</div>
-      <h1 class="h1" style="margin-bottom: 24px;">Sua carteira de clientes já tem o faturamento que falta. Você só precisa <em style="font-style: italic; color: var(--accent-primary);">ver</em> onde ele está.</h1>
-      <p class="body-lg" style="max-width: 520px; margin-bottom: 36px;">O Agenda 360 olha para sua lista de clientes todos os dias e mostra exatamente quem precisa de um retorno agora — antes que ela procure outra profissional.</p>
-      <div class="hero-cta-group" style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
-        <a href="#preco" class="btn btn-primary" onclick="scrollToPricing(event)">
-          Quero transformar minha carteira em faturamento
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+<section class="produto-dentro">
+  <div class="wrap">
+    <div class="wrap-narrow scroll-reveal">
+      <span class="eyebrow">Sua carteira em uma única visão</span>
+      <h1>Abra. Olhe. Saiba exatamente onde agir.</h1>
+      <p>A Agenda 360 organiza sua carteira para que, em poucos minutos, você consiga enxergar quem atende hoje, quem precisa de contato e onde podem estar seus próximos retornos.</p>
+    </div>
+    <div class="vedete scroll-reveal">
+      <img src="/agenda360/telas/2-Painel.png" alt="Painel real da Agenda 360 mostrando quem atender, quem contactar e quem está sem agendamento">
+    </div>
+    <div class="callouts-row scroll-reveal">
+      <div class="callout-chip"><div class="tit">Atendimentos de hoje</div><div class="desc">Quem passa pela sua maca naquele dia.</div></div>
+      <div class="callout-chip"><div class="tit">Precisa de contato</div><div class="desc">Quem merece uma mensagem.</div></div>
+      <div class="callout-chip"><div class="tit">Hora de voltar</div><div class="desc">Clientes entrando no período de retorno.</div></div>
+      <div class="callout-chip"><div class="tit">Sem próximo agendamento</div><div class="desc">Oportunidades dentro da carteira.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="metodo">
+  <div class="wrap">
+    <div class="metodo-intro scroll-reveal">
+      <span class="eyebrow">Método VOLTA</span>
+      <h1>O caminho para uma cliente atendida continuar sendo sua cliente.</h1>
+      <p style="margin-top:12px;font-weight:600;">5 movimentos. Uma carteira sempre em movimento.</p>
+    </div>
+    <div class="volta-row scroll-reveal">
+      <div class="volta-step">
+        <div class="volta-letter">V</div>
+        <div class="volta-dot"></div>
+        <div class="volta-icon"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"></path></svg></div>
+        <div class="volta-name">Visão 360</div>
+        <div class="volta-phrase">Veja quem precisa da sua atenção hoje.</div>
+      </div>
+      <div class="volta-step">
+        <div class="volta-letter">O</div>
+        <div class="volta-dot"></div>
+        <div class="volta-icon"><svg class="icon" viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><circle cx="3.5" cy="6" r="1"></circle><circle cx="3.5" cy="12" r="1"></circle><circle cx="3.5" cy="18" r="1"></circle></svg></div>
+        <div class="volta-name">Organização Inteligente</div>
+        <div class="volta-phrase">Cada atendimento alimenta sua carteira.</div>
+      </div>
+      <div class="volta-step">
+        <div class="volta-letter">L</div>
+        <div class="volta-dot"></div>
+        <div class="volta-icon"><svg class="icon" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8z"></path></svg></div>
+        <div class="volta-name">Laço Contínuo</div>
+        <div class="volta-phrase">Mantenha o relacionamento vivo.</div>
+      </div>
+      <div class="volta-step">
+        <div class="volta-letter">T</div>
+        <div class="volta-dot"></div>
+        <div class="volta-icon"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><polyline points="12 7 12 12 16 14"></polyline></svg></div>
+        <div class="volta-name">Timing Perfeito</div>
+        <div class="volta-phrase">Fale com cada cliente no momento certo.</div>
+      </div>
+      <div class="volta-step">
+        <div class="volta-letter">A</div>
+        <div class="volta-dot"></div>
+        <div class="volta-icon"><svg class="icon" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 2.6-6.3"></path><polyline points="3 4 3 9 8 9"></polyline></svg></div>
+        <div class="volta-name">Agenda Viva</div>
+        <div class="volta-phrase">Transforme relacionamento em retorno.</div>
+      </div>
+    </div>
+    <div class="volta-cycle scroll-reveal">
+      <span><svg class="icon" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 2.6-6.3"></path><polyline points="3 4 3 9 8 9"></polyline></svg>VOLTA</span>
+    </div>
+  </div>
+</section>
+
+<section class="diferencial">
+  <div class="wrap">
+    <div class="dif-grid scroll-reveal">
+      <div class="dif-headline">
+        <span class="eyebrow">Feita para a sua rotina</span>
+        <h1>Em <span class="grad-text">5 minutos</span> você vai <span class="grad-text">enxergar as oportunidades</span> que o seu dia a dia te faz esquecer.</h1>
+      </div>
+      <div class="dif-card">
+        <div class="dif-arg">
+          <div class="dif-arg-icon"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><polyline points="12 7 12 12 16 14"></polyline></svg></div>
+          <div class="tit">Uma visão 360° em 5 minutos</div>
+          <p>Em poucos minutos, você enxerga quem está na hora de voltar, quem merece uma mensagem e onde estão as oportunidades de novos agendamentos dentro da carteira que você já conquistou.</p>
+          <p><strong>Você olha. Entende. Age. E segue o seu dia.</strong></p>
+        </div>
+        <div class="dif-divider"></div>
+        <div class="dif-arg">
+          <div class="dif-arg-icon"><svg class="icon" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="14" rx="3"></rect><circle cx="12" cy="14" r="3.5"></circle><path d="M8 7l1.3-2h5.4L16 7"></path></svg></div>
+          <div class="tit">Menos dependência do próximo post</div>
+          <p>Antes de gastar horas pensando no próximo conteúdo para tentar atrair alguém novo, você passa a olhar primeiro para quem já conhece e confia no seu trabalho.</p>
+          <p>O Instagram continua trazendo novas clientes. Só deixa de carregar sozinho a responsabilidade de manter sua agenda girando.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="dinheiro">
+  <div class="wrap">
+    <div class="wrap-narrow scroll-reveal">
+      <h1>Faça uma conta rápida com a sua própria lista de clientes.</h1>
+      <p>Imagine uma esteticista autônoma com uma carteira relativamente pequena:</p>
+      <div class="dinheiro-num">40 clientes.</div>
+      <p>Ela não precisa convencer todas a voltarem.</p>
+      <p>Vamos imaginar que, ao acompanhar melhor essas clientes, apenas <strong>4 retornem naquele mês.</strong></p>
+      <p>Isso significa trabalhar somente:</p>
+      <div class="dinheiro-num" style="font-size:2.2rem;">10% da carteira.</div>
+      <div class="dinheiro-card"><img src="/agenda360/telas/11-dinheiroParado.png" alt="Card real da Agenda 360 mostrando R$ 1.020 de dinheiro parado"></div>
+      <p>Agora considere um ticket médio de R$ 350 por atendimento.</p>
+      <div class="dinheiro-eq">4 clientes × R$ 350 = R$ 1.400</div>
+      <p>São <strong>R$ 1.400 em novos atendimentos</strong> vindos de pessoas que já conheciam aquela profissional.</p>
+      <p>Se isso acontecer todos os meses:</p>
+      <div class="dinheiro-num">R$ 16.800 em um ano.</div>
+      <p>E essa conta ainda não considera novos procedimentos, aumento de ticket ou indicações.</p>
+      <p>Porque clientes que continuam voltando tendem a permanecer mais próximas do negócio, e uma cliente satisfeita também pode apresentar seu trabalho para amigas e conhecidas.</p>
+      <h3 style="margin-top:48px;">Agora faça essa conta com a sua própria carteira.</h3>
+      <p>Quantas clientes já passaram por você nos últimos meses?</p>
+      <div class="dinheiro-chips"><span>20</span><span>40</span><span>80</span><span>100</span></div>
+      <p>E quantas delas você sabe, <strong>hoje</strong>, que já estão no momento de voltar?</p>
+      <p style="margin-top:12px;font-weight:600;color:var(--charcoal);">É exatamente essa falta de visibilidade que a Agenda 360 resolve.</p>
+    </div>
+  </div>
+</section>
+
+<section class="virada">
+  <div class="wrap">
+    <div class="wrap-narrow scroll-reveal">
+      <span class="eyebrow">A grande virada</span>
+      <h1 class="center">Você não precisa escolher entre conquistar novas clientes e fazer as antigas voltarem.</h1>
+      <p class="center"><strong>O Instagram trabalha para colocar novas clientes na sua carteira.</strong></p>
+      <p class="center"><strong>A Agenda 360 trabalha para que elas não desapareçam dela depois do primeiro atendimento.</strong></p>
+      <p class="center">Continue mostrando seu trabalho. Continue conquistando novas clientes.<br>Mas entenda: <strong>aquisição e relacionamento são dois trabalhos diferentes.</strong></p>
+    </div>
+
+    <div class="virada-funis scroll-reveal">
+      <div class="virada-funil aquisicao">
+        <div class="virada-funil-tag">Funil de aquisição</div>
+        <div class="virada-funil-sub">Para conquistar uma nova cliente</div>
+        <p class="desc">Você chama a atenção de quem ainda não conhece o seu trabalho, constrói confiança e transforma uma desconhecida em cliente.</p>
+        <div class="virada-funil-flow">Instagram → Interesse → Confiança → 1º agendamento</div>
+        <p class="virada-funil-objetivo">Objetivo: colocar uma nova cliente na sua carteira.</p>
+      </div>
+
+      <div class="virada-marcador"><span>Aqui começa a Agenda 360</span></div>
+
+      <div class="virada-funil relacionamento">
+        <div class="virada-funil-tag">Funil de relacionamento</div>
+        <div class="virada-funil-sub">Para fazer uma cliente voltar</div>
+        <p class="desc">Depois do atendimento, você mantém o relacionamento com quem já conhece, já confiou e já comprou de você.</p>
+        <div class="virada-funil-flow">Atendimento → Relacionamento → Momento certo → Retorno → Indicação ↻</div>
+        <p class="virada-funil-objetivo">Objetivo: não deixar uma boa cliente desaparecer da sua carteira.</p>
+      </div>
+    </div>
+
+    <div class="virada-conclusao scroll-reveal">
+      <h2 class="center">A Agenda 360 começa justamente onde o trabalho de conquistar uma nova cliente termina.</h2>
+      <p class="center">Ela mostra todos os dias <strong>quem está na hora de voltar e quem merece uma mensagem</strong>, para transformar a carteira que você já construiu em novas oportunidades de agendamento e faturamento.</p>
+      <h3 class="center">Conquistar uma cliente uma vez é aquisição. Fazer com que ela continue voltando é relacionamento.</h3>
+      <p class="center"><strong>A Agenda 360 ajuda você a não desperdiçar todo o esforço que já fez para conquistá-la.</strong></p>
+    </div>
+  </div>
+</section>
+
+<section class="oferta">
+  <div class="wrap">
+    <span class="eyebrow">Agenda 360</span>
+    <h1>Pare de deixar suas melhores oportunidades esquecidas no WhatsApp.</h1>
+    <p>Comece cada dia sabendo quais clientes merecem sua atenção e transforme sua carteira em uma fonte muito mais ativa de retornos.</p>
+    <p style="margin-top:8px;">Com a Agenda 360, você pode:</p>
+    <ul class="oferta-list">
+      <li><svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg> Sentir a tranquilidade de saber que boas clientes não estão simplesmente sendo esquecidas.</li>
+      <li><svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg> Parar de entrar em desespero quando aparece um buraco na agenda e você não sabe quem contactar.</li>
+      <li><svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg> Ter clareza sobre onde podem estar seus próximos agendamentos antes de pensar em conquistar desconhecidas.</li>
+      <li><svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg> Construir uma carteira que continua gerando oportunidades muito depois do primeiro atendimento.</li>
+    </ul>
+    <div class="oferta-box">
+      <h3>O valor real de uma única cliente que volta.</h3>
+      <p>Se o seu ticket médio fosse R$ 350, <strong>um único retorno já representaria mais de 7 meses da Agenda 360.</strong></p>
+      <p style="margin-top:10px;">Você não precisa reativar 20 clientes. Não precisa reativar 10.</p>
+      <p class="destaque">Uma única cliente pode pagar vários meses da sua assinatura.</p>
+      <div style="margin-top:28px;border-top:1px solid var(--areia);padding-top:24px;">
+        <div style="font-weight:700;letter-spacing:0.06em;color:var(--charcoal);">AGENDA 360</div>
+        <div class="price">R$ 47,90/mês</div>
+        <div class="sub">Cancele quando quiser</div>
+        <a href="https://pay.hotmart.com/V107112561K" class="btn btn-primary">Quero colocar minha carteira para trabalhar
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
         </a>
-        <a href="#como-funciona" style="font-size: 15px; font-weight: 600; color: var(--text-primary); display: flex; align-items: center; gap: 6px;">Ver como funciona<span style="font-size: 13px;">↓</span></a>
       </div>
-      <p style="font-family: var(--font-body); font-size: 14px; color: var(--text-muted); margin: 20px 0 0;">Apenas R$ 47 por mês · acesso imediato</p>
     </div>
-    <div style="position: relative;">
-      <div style="position: absolute; inset: -30px; background: var(--color-warm-nude); opacity: 0.35; border-radius: 32px; filter: blur(40px); z-index: 0;"></div>
-      <div id="dashboard-mock" style="position: relative; z-index: 1; background: var(--surface-card); border-radius: var(--radius-card); box-shadow: var(--shadow-elevated); padding: 28px; border: 1px solid var(--border-default);"></div>
-    </div>
-  </section>
+  </div>
+</section>
 
-  <!-- PROBLEMA -->
-  <section style="background: var(--surface-sunken); padding: 88px 32px;">
-    <div style="max-width: 1000px; margin: 0 auto; text-align: center;">
-      <div class="eyebrow" style="margin-bottom: 16px;">O CUSTO DE NÃO SABER</div>
-      <h2 class="h2" style="margin-bottom: 20px;">Toda cliente que você esquece de chamar é faturamento que vai para a concorrência.</h2>
-      <p class="body-lg" style="max-width: 620px; margin: 0 auto;">Sua agenda de hoje conta apenas metade da história. A outra metade — quem já devia ter voltado — some entre conversas de WhatsApp e planilhas soltas.</p>
-    </div>
-    <div class="lp-grid-3" style="max-width: 1100px; margin: 56px auto 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;">
-      <div style="background: var(--surface-card); border-radius: var(--radius-card); padding: 32px; box-shadow: var(--shadow-soft);">
-        <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--surface-accent-soft); display: flex; align-items: center; justify-content: center; margin-bottom: 20px;"><i data-lucide="clock" style="width: 22px; height: 22px; color: var(--accent-primary);"></i></div>
-        <h3 style="font-family: var(--font-display); font-size: 21px; font-weight: 600; margin: 0 0 10px; color: var(--text-primary);">Retornos esquecidos</h3>
-        <p style="font-size: 15px; line-height: 24px; color: var(--text-secondary); margin: 0;">Sem um sistema que avisa, o retorno da cliente vira lembrança tardia — quando ela já marcou em outro lugar.</p>
+<section class="garantia-sec">
+  <div class="wrap">
+    <div class="cards-2 scroll-reveal">
+      <div class="card-suave">
+        <div class="icon-wrap"><svg class="icon" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></div>
+        <h3>7 dias para conhecer</h3>
+        <p>Você terá 7 dias para conhecer a Agenda 360 e entender como ela pode fazer parte da sua rotina.</p>
+        <p>Se perceber que não faz sentido para você, basta solicitar o cancelamento dentro do período de garantia.</p>
+        <p class="destaque">Entre, experimente e depois decida.</p>
       </div>
-      <div style="background: var(--surface-card); border-radius: var(--radius-card); padding: 32px; box-shadow: var(--shadow-soft);">
-        <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--surface-accent-soft); display: flex; align-items: center; justify-content: center; margin-bottom: 20px;"><i data-lucide="layout-grid" style="width: 22px; height: 22px; color: var(--accent-primary);"></i></div>
-        <h3 style="font-family: var(--font-display); font-size: 21px; font-weight: 600; margin: 0 0 10px; color: var(--text-primary);">Informação espalhada</h3>
-        <p style="font-size: 15px; line-height: 24px; color: var(--text-secondary); margin: 0;">Histórico no caderno, conversa no WhatsApp, agenda no papel. Nenhum lugar mostra o quadro completo.</p>
-      </div>
-      <div style="background: var(--surface-card); border-radius: var(--radius-card); padding: 32px; box-shadow: var(--shadow-soft);">
-        <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--surface-accent-soft); display: flex; align-items: center; justify-content: center; margin-bottom: 20px;"><i data-lucide="trending-down" style="width: 22px; height: 22px; color: var(--accent-primary);"></i></div>
-        <h3 style="font-family: var(--font-display); font-size: 21px; font-weight: 600; margin: 0 0 10px; color: var(--text-primary);">Crescimento por sorte</h3>
-        <p style="font-size: 15px; line-height: 24px; color: var(--text-secondary); margin: 0;">Sem clareza sobre quem priorizar, cada mês bom ou fraco depende de acaso — não de decisão.</p>
+      <div class="card-suave">
+        <div class="icon-wrap"><svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg></div>
+        <h3>Você não vai começar sozinha</h3>
+        <p>Organizar uma carteira não deveria virar mais uma tarefa complicada na sua rotina.</p>
+        <p>Por isso, você terá orientação para entender a lógica da Agenda 360 e começar a utilizá-la no seu negócio.</p>
+        <p class="destaque">Tecnologia só faz sentido quando facilita sua vida.</p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- COMO FUNCIONA -->
-  <section id="como-funciona" style="max-width: 1100px; margin: 0 auto; padding: 96px 32px;">
-    <div style="text-align: center; margin-bottom: 64px;">
-      <div class="eyebrow" style="margin-bottom: 16px;">COMO FUNCIONA</div>
-      <h2 class="h2">Três passos entre sua carteira parada e sua agenda cheia.</h2>
-    </div>
-    <div class="lp-grid-3" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px;">
-      <div>
-        <div style="font-family: var(--font-display); font-size: 44px; color: var(--color-warm-nude); font-weight: 600; margin-bottom: 14px;">01</div>
-        <h3 style="font-family: var(--font-display); font-size: 22px; font-weight: 600; margin: 0 0 10px; color: var(--text-primary);">Traga sua carteira</h3>
-        <p style="font-size: 16px; line-height: 26px; color: var(--text-secondary); margin: 0;">Cadastre suas clientes e o histórico de procedimentos — em minutos, sem planilha.</p>
-      </div>
-      <div>
-        <div style="font-family: var(--font-display); font-size: 44px; color: var(--color-warm-nude); font-weight: 600; margin-bottom: 14px;">02</div>
-        <h3 style="font-family: var(--font-display); font-size: 22px; font-weight: 600; margin: 0 0 10px; color: var(--text-primary);">Abra o painel do dia</h3>
-        <p style="font-size: 16px; line-height: 26px; color: var(--text-secondary); margin: 0;">Todas as manhãs, o Agenda 360 já separou quem precisa de atenção — e por quê.</p>
-      </div>
-      <div>
-        <div style="font-family: var(--font-display); font-size: 44px; color: var(--color-warm-nude); font-weight: 600; margin-bottom: 14px;">03</div>
-        <h3 style="font-family: var(--font-display); font-size: 22px; font-weight: 600; margin: 0 0 10px; color: var(--text-primary);">Aja com clareza</h3>
-        <p style="font-size: 16px; line-height: 26px; color: var(--text-secondary); margin: 0;">Chame a cliente certa, no momento certo. A decisão já está pronta — só falta o convite.</p>
+<section class="autor">
+  <div class="wrap">
+    <div class="autor-grid">
+      <div class="autor-photo scroll-reveal"><img src="/agenda360/foto-autor.jpg" alt="Edson, criador da Agenda 360"></div>
+      <div class="scroll-reveal">
+        <span class="eyebrow">Por trás da Agenda 360</span>
+        <h1>Eu passei mais de 15 anos criando sistemas. Até perceber que tecnologia também poderia ajudar pequenos negócios a vender melhor.</h1>
+        <p>Eu sou Edson.</p>
+        <p>Depois de anos resolvendo problema de sistema pra empresa grande, comecei a estudar vendas e marketing e percebi uma coisa: <strong>gente que trabalha muito e não vê o que já tem em mãos é um problema ainda mais comum em negócio pequeno</strong>, e quase ninguém resolve isso pra quem atende sozinho.</p>
+        <p>E observando pequenos negócios, principalmente profissionais que trabalham sozinhas, comecei a perceber um comportamento curioso. Elas se esforçavam muito para conquistar clientes: produziam conteúdo, divulgavam o trabalho, respondiam mensagem atrás de mensagem. Faziam promoção atrás de promoção até finalmente conseguir agendar com aquela cliente e entregar um ótimo atendimento. A cliente ia embora satisfeita... e praticamente desaparecia.</p>
+        <p>Não porque não tivesse gostado. Mas porque a profissional precisava atender, responder WhatsApp, cuidar da agenda, produzir conteúdo, administrar o negócio e ainda lembrar quando dezenas de clientes deveriam voltar. É humanamente difícil acompanhar tudo isso de cabeça.</p>
+        <p>Foi daí que surgiu a ideia da Agenda 360. Eu queria criar uma forma simples de uma profissional abrir uma única visão e responder rapidamente:</p>
+        <p class="quote">"Quem das minhas clientes precisa da minha atenção hoje?"</p>
+        <p>Porque existe uma coisa que ficou muito clara para mim:</p>
+        <div class="fechamento">Antes de correr atrás de novos clientes, existe muito faturamento que você ainda pode gerar com aqueles que já conquistou. É assim que você transforma os pacientes que já tem em agenda cheia e lucrativa.</div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- RECURSOS -->
-  <section id="recursos" style="background: var(--surface-sunken); padding: 96px 32px;">
-    <div class="lp-grid-2" style="max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 72px; align-items: center;">
-      <div>
-        <div class="eyebrow" style="margin-bottom: 16px;">DENTRO DO PAINEL</div>
-        <h2 class="h2" style="margin-bottom: 24px;">Um único lugar que já sabe quem chamar hoje.</h2>
-        <div style="display: flex; flex-direction: column; gap: 24px; margin-top: 36px;">
-          <div style="display: flex; gap: 16px;">
-            <i data-lucide="calendar-check" style="width: 22px; height: 22px; color: var(--accent-primary); flex-shrink: 0; margin-top: 2px;"></i>
-            <div>
-              <h4 style="font-family: var(--font-body); font-size: 16px; font-weight: 700; margin: 0 0 4px; color: var(--text-primary);">Prioridade do dia</h4>
-              <p style="font-size: 15px; line-height: 24px; color: var(--text-secondary); margin: 0;">Lista clara de quem está atrasada, no prazo ou próxima do retorno ideal.</p>
-            </div>
-          </div>
-          <div style="display: flex; gap: 16px;">
-            <i data-lucide="sparkles" style="width: 22px; height: 22px; color: var(--accent-primary); flex-shrink: 0; margin-top: 2px;"></i>
-            <div>
-              <h4 style="font-family: var(--font-body); font-size: 16px; font-weight: 700; margin: 0 0 4px; color: var(--text-primary);">Oportunidades sugeridas</h4>
-              <p style="font-size: 15px; line-height: 24px; color: var(--text-secondary); margin: 0;">O sistema aponta procedimentos e retornos com maior chance de conversão.</p>
-            </div>
-          </div>
-          <div style="display: flex; gap: 16px;">
-            <i data-lucide="bar-chart-3" style="width: 22px; height: 22px; color: var(--accent-primary); flex-shrink: 0; margin-top: 2px;"></i>
-            <div>
-              <h4 style="font-family: var(--font-body); font-size: 16px; font-weight: 700; margin: 0 0 4px; color: var(--text-primary);">Faturamento do mês</h4>
-              <p style="font-size: 15px; line-height: 24px; color: var(--text-secondary); margin: 0;">Acompanhe o resultado de agir com clareza, em tempo real.</p>
-            </div>
-          </div>
-        </div>
+<section class="faq">
+  <div class="wrap">
+    <h2 class="center scroll-reveal" style="margin-bottom:48px;">Perguntas frequentes</h2>
+    <div class="faq-list scroll-reveal">
+      <div class="faq-item">
+        <button class="faq-question">Eu tenho poucas clientes. Faz sentido para mim?
+          <svg class="icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="faq-answer"><p>Sim. Você não precisa esperar ter centenas de clientes para começar a cuidar da sua carteira. Imagine ter 30 ou 40 clientes e conseguir identificar rapidamente quais delas estão chegando no período de retorno. Quanto antes esse hábito existir no negócio, melhor.</p></div>
       </div>
-      <div style="position: relative;">
-        <div id="dashboard-mock-2" style="background: var(--surface-card); border-radius: var(--radius-card); box-shadow: var(--shadow-elevated); padding: 32px; border: 1px solid var(--border-default);"></div>
+      <div class="faq-item">
+        <button class="faq-question">Eu já uso uma agenda. Por que precisaria da Agenda 360?
+          <svg class="icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="faq-answer"><p>Uma agenda tradicional ajuda principalmente a responder "quem está agendado?". A Agenda 360 foi pensada para ajudar você a responder outra pergunta: "quem precisa da minha atenção hoje para continuar sendo minha cliente?". São necessidades diferentes.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">Preciso ficar alimentando informações todos os dias?
+          <svg class="icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="faq-answer"><p>A Agenda 360 foi pensada para fazer parte da rotina normal de atendimento, evitando transformar organização em mais um trabalho complicado. O objetivo é justamente reduzir a quantidade de coisas que você precisa lembrar e procurar manualmente.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">Preciso entender de tecnologia?
+          <svg class="icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="faq-answer"><p>Não. Se você consegue administrar seus atendimentos e conversar com suas clientes pelo celular, a proposta é que consiga incorporar a Agenda 360 à sua rotina.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">Ela vai conseguir clientes novas para mim?
+          <svg class="icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="faq-answer"><p>Não é essa a promessa. A Agenda 360 trabalha uma oportunidade diferente: as clientes que você já conquistou. O marketing pode continuar trazendo novas pessoas. A Agenda 360 ajuda você a aproveitar melhor cada cliente que entra.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">Então eu posso parar de usar Instagram?
+          <svg class="icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="faq-answer"><p>Não. E nem deveria pensar dessa maneira. Instagram, indicação, Google e outros canais podem continuar trazendo novas clientes para o seu negócio. A diferença é que você deixa de colocar 100% da responsabilidade pelo próximo agendamento na conquista de uma pessoa nova.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">Posso cancelar?
+          <svg class="icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="faq-answer"><p>Sim. A assinatura da Agenda 360 custa R$ 47,90/mês e pode ser cancelada quando você quiser.</p></div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- NÚMEROS -->
-  <section style="max-width: 1000px; margin: 0 auto; padding: 88px 32px; text-align: center;">
-    <div class="eyebrow" style="margin-bottom: 16px;">O QUE MUDA NA SUA ROTINA</div>
-    <h2 class="h2" style="margin-bottom: 56px;">Menos tempo procurando. Mais tempo atendendo.</h2>
-    <div class="lp-grid-3" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;">
-      <div>
-        <div style="font-family: var(--font-display); font-size: 52px; font-weight: 600; color: var(--accent-primary);">1</div>
-        <p style="font-size: 15px; color: var(--text-secondary); margin: 8px 0 0;">painel diário, no lugar de planilhas e cadernos soltos</p>
-      </div>
-      <div>
-        <div style="font-family: var(--font-display); font-size: 52px; font-weight: 600; color: var(--accent-primary);">0</div>
-        <p style="font-size: 15px; color: var(--text-secondary); margin: 8px 0 0;">retornos esquecidos quando o sistema avisa por você</p>
-      </div>
-      <div>
-        <div style="font-family: var(--font-display); font-size: 52px; font-weight: 600; color: var(--accent-primary);">R$ 47</div>
-        <p style="font-size: 15px; color: var(--text-secondary); margin: 8px 0 0;">por mês para organizar e crescer com sua carteira</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- DEPOIMENTOS -->
-  <section id="depoimentos" style="background: var(--surface-sunken); padding: 96px 32px;">
-    <div style="max-width: 1200px; margin: 0 auto;">
-      <div style="text-align: center; margin-bottom: 56px;">
-        <div class="eyebrow" style="margin-bottom: 16px;">QUEM JÁ USA</div>
-        <h2 class="h2">Profissionais que trocaram achismo por decisão.</h2>
-      </div>
-      <div class="lp-grid-3" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;">
-        <div style="background: var(--surface-card); border-radius: var(--radius-card); padding: 32px; box-shadow: var(--shadow-soft); display: flex; flex-direction: column; gap: 20px;">
-          <i data-lucide="quote" style="width: 22px; height: 22px; color: var(--color-warm-nude);"></i>
-          <p style="font-family: var(--font-display); font-style: italic; font-size: 18px; line-height: 28px; color: var(--text-primary); margin: 0;">"Eu não sabia que tinha tantas clientes prontas para voltar. Hoje sei exatamente quem chamar."</p>
-          <div style="font-size: 14px; color: var(--text-muted);">Esteticista autônoma, São Paulo</div>
-        </div>
-        <div style="background: var(--surface-card); border-radius: var(--radius-card); padding: 32px; box-shadow: var(--shadow-soft); display: flex; flex-direction: column; gap: 20px;">
-          <i data-lucide="quote" style="width: 22px; height: 22px; color: var(--color-warm-nude);"></i>
-          <p style="font-family: var(--font-display); font-style: italic; font-size: 18px; line-height: 28px; color: var(--text-primary); margin: 0;">"Substituiu três planilhas e meu caderno de anotações. Agora minha manhã começa com um plano."</p>
-          <div style="font-size: 14px; color: var(--text-muted);">Esteticista autônoma, Belo Horizonte</div>
-        </div>
-        <div style="background: var(--surface-card); border-radius: var(--radius-card); padding: 32px; box-shadow: var(--shadow-soft); display: flex; flex-direction: column; gap: 20px;">
-          <i data-lucide="quote" style="width: 22px; height: 22px; color: var(--color-warm-nude);"></i>
-          <p style="font-family: var(--font-display); font-style: italic; font-size: 18px; line-height: 28px; color: var(--text-primary); margin: 0;">"Parece feito para o meu jeito de trabalhar. Elegante e direto ao ponto, sem nada técnico demais."</p>
-          <div style="font-size: 14px; color: var(--text-muted);">Esteticista autônoma, Curitiba</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PREÇO -->
-  <section id="preco" style="padding: 96px 32px;">
-    <div style="max-width: 1280px; margin: 0 auto; text-align: center; margin-bottom: 56px;">
-      <div class="eyebrow" style="margin-bottom: 16px;">INVESTIMENTO</div>
-      <h2 class="h2">Uma assinatura simples. Resultados todos os meses.</h2>
-    </div>
-    <div style="max-width: 480px; margin: 0 auto; background: var(--surface-inverse); border-radius: var(--radius-card); padding: 48px 40px; box-shadow: var(--shadow-elevated); text-align: center;">
-      <div style="font-family: var(--font-body); font-size: 14px; font-weight: 700; letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--color-warm-nude); margin-bottom: 20px;">AGENDA 360</div>
-      <div style="display: flex; align-items: baseline; justify-content: center; gap: 6px; margin-bottom: 8px;">
-        <span style="font-family: var(--font-display); font-size: 60px; font-weight: 600; color: var(--text-on-accent);">R$ 47</span>
-      </div>
-      <p style="font-size: 15px; color: var(--color-warm-nude); margin: 0 0 32px;">por mês · cancele quando quiser</p>
-      <div style="display: flex; flex-direction: column; gap: 16px; text-align: left; margin-bottom: 36px;">
-        <div style="display: flex; gap: 12px; align-items: flex-start;">
-          <i data-lucide="check" style="width: 18px; height: 18px; color: var(--color-warm-nude); flex-shrink: 0; margin-top: 3px;"></i>
-          <span style="font-size: 15px; color: var(--text-on-accent);">Painel diário de prioridades da sua carteira</span>
-        </div>
-        <div style="display: flex; gap: 12px; align-items: flex-start;">
-          <i data-lucide="check" style="width: 18px; height: 18px; color: var(--color-warm-nude); flex-shrink: 0; margin-top: 3px;"></i>
-          <span style="font-size: 15px; color: var(--text-on-accent);">Cadastro completo de clientes e histórico</span>
-        </div>
-        <div style="display: flex; gap: 12px; align-items: flex-start;">
-          <i data-lucide="check" style="width: 18px; height: 18px; color: var(--color-warm-nude); flex-shrink: 0; margin-top: 3px;"></i>
-          <span style="font-size: 15px; color: var(--text-on-accent);">Agenda integrada e oportunidades sugeridas</span>
-        </div>
-        <div style="display: flex; gap: 12px; align-items: flex-start;">
-          <i data-lucide="check" style="width: 18px; height: 18px; color: var(--color-warm-nude); flex-shrink: 0; margin-top: 3px;"></i>
-          <span style="font-size: 15px; color: var(--text-on-accent);">Acesso imediato, atualizações inclusas</span>
-        </div>
-      </div>
-      <a href="#" class="btn btn-nude" style="width: 100%; font-size: 16px;">
-        Quero o Agenda 360 agora
+<section class="cta-final">
+  <div class="wrap">
+    <div class="wrap-narrow scroll-reveal">
+      <span class="eyebrow">Olhe primeiro para quem já confiou em você</span>
+      <h1>Sua próxima cliente não precisa vir do Instagram.</h1>
+      <h2 style="color:#fff;font-weight:600;">Ela provavelmente já está na sua lista de contatos.</h2>
+      <p>Talvez ela tenha feito uma limpeza de pele há alguns meses. Talvez tenha dito que voltaria. Talvez tenha gostado tanto do atendimento que até indicou você para uma amiga.</p>
+      <p>E talvez ela simplesmente tenha seguido a vida... enquanto você seguiu tentando conquistar a próxima cliente.</p>
+      <p class="fechamento">A Agenda 360 ajuda você a não deixar esse relacionamento desaparecer.</p>
+      <p>Abra sua carteira. Descubra quem precisa da sua atenção. Envie a mensagem certa. E dê às suas clientes um motivo para continuarem voltando.</p>
+      <a href="https://pay.hotmart.com/V107112561K" class="btn btn-light" style="margin-top:20px;">Quero começar com a Agenda 360
+        <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
       </a>
+      <div class="price">R$ 47,90/mês</div>
+      <div class="sub">Cancele quando quiser</div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- FAQ -->
-  <section style="background: var(--surface-sunken); padding: 96px 32px;">
-    <div style="max-width: 760px; margin: 0 auto;">
-      <div style="text-align: center; margin-bottom: 48px;">
-        <div class="eyebrow" style="margin-bottom: 16px;">PERGUNTAS FREQUENTES</div>
-        <h2 class="h2">Ainda com dúvidas?</h2>
-      </div>
-      <div style="display: flex; flex-direction: column; gap: 16px;">
-        <details class="faq-item" style="background: var(--surface-card); border-radius: 18px; padding: 24px 28px; box-shadow: var(--shadow-soft);">
-          <summary style="font-family: var(--font-body); font-size: 17px; font-weight: 700; color: var(--text-primary); list-style: none;">Preciso saber usar tecnologia para usar o Agenda 360?</summary>
-          <p style="font-size: 15px; line-height: 24px; color: var(--text-secondary); margin: 14px 0 0;">Não. O painel foi pensado para abrir e entender em segundos — sem termos técnicos, sem manual.</p>
-        </details>
-        <details class="faq-item" style="background: var(--surface-card); border-radius: 18px; padding: 24px 28px; box-shadow: var(--shadow-soft);">
-          <summary style="font-family: var(--font-body); font-size: 17px; font-weight: 700; color: var(--text-primary); list-style: none;">O valor de R$ 47 é cobrado todo mês?</summary>
-          <p style="font-size: 15px; line-height: 24px; color: var(--text-secondary); margin: 14px 0 0;">Sim, é uma assinatura mensal de R$ 47. Você pode cancelar a qualquer momento, sem multa e sem burocracia.</p>
-        </details>
-        <details class="faq-item" style="background: var(--surface-card); border-radius: 18px; padding: 24px 28px; box-shadow: var(--shadow-soft);">
-          <summary style="font-family: var(--font-body); font-size: 17px; font-weight: 700; color: var(--text-primary); list-style: none;">Funciona se eu atendo em domicílio ou home studio?</summary>
-          <p style="font-size: 15px; line-height: 24px; color: var(--text-secondary); margin: 14px 0 0;">Sim. O Agenda 360 é feito para a profissional autônoma — não importa onde você atende.</p>
-        </details>
-        <details class="faq-item" style="background: var(--surface-card); border-radius: 18px; padding: 24px 28px; box-shadow: var(--shadow-soft);">
-          <summary style="font-family: var(--font-body); font-size: 17px; font-weight: 700; color: var(--text-primary); list-style: none;">Consigo importar minha lista de clientes atual?</summary>
-          <p style="font-size: 15px; line-height: 24px; color: var(--text-secondary); margin: 14px 0 0;">Sim, o cadastro é rápido e guiado — em poucos minutos sua carteira já está dentro do painel.</p>
-        </details>
-      </div>
-    </div>
-  </section>
+<footer>
+  <div class="brand">Agenda 360</div>
+  <p>Uma solução Avance Certo.</p>
+  <p>© 2026 Avance Certo. Todos os direitos reservados.</p>
+  <p><a href="https://agenda360.avancecerto.com/termos" target="_blank" rel="noopener">Termos de Uso</a> • <a href="https://agenda360.avancecerto.com/privacidade" target="_blank" rel="noopener">Política de Privacidade</a></p>
+</footer>
 
-  <!-- CTA FINAL -->
-  <section style="padding: 100px 32px; text-align: center;">
-    <div style="max-width: 700px; margin: 0 auto;">
-      <h2 class="h2" style="margin-bottom: 24px;">Clareza para agir. Resultados para crescer.</h2>
-      <p class="body-lg" style="margin-bottom: 40px;">Sua próxima cliente pronta para voltar já está na sua carteira. O Agenda 360 mostra quem é — hoje.</p>
-      <a href="#preco" class="btn btn-primary" onclick="scrollToPricing(event)">
-        Quero transformar minha carteira em faturamento agora
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </a>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer style="border-top: 1px solid var(--border-default); padding: 40px 32px;">
-    <div style="max-width: 1280px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
-      <div style="font-family: var(--font-body); font-size: 13px; color: var(--text-muted);">Um produto desenvolvido por Avance Certo Soluções</div>
-      <div style="font-family: var(--font-body); font-size: 13px; color: var(--text-muted);">avancecerto.com</div>
-    </div>
-  </footer>
+<a href="https://pay.hotmart.com/V107112561K" class="cta-flutuante" id="ctaFlutuante" aria-label="Acessar Agenda 360">
+  <svg class="icon" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4.5 16.5c-1.5 1.3-2 5-2 5s3.7-.5 5-2c.7-.8.7-2.1-.1-2.9a2.18 2.18 0 0 0-2.9-.1z"></path>
+    <path d="M12 15l-3-3a22 22 0 0 1 2-4A13 13 0 0 1 19 4c0 2.5-.5 6.5-4 9a23 23 0 0 1-4 2z"></path>
+    <path d="M9 12H4s.6-3 2-4c1.6-1.1 5 0 5 0"></path>
+    <path d="M12 15v5s3-.6 4-2c1.1-1.6 0-5 0-5"></path>
+  </svg>
+  Acessar Agenda 360
+</a>
 
 <script>
-  function scrollToPricing(e) {
-    e.preventDefault();
-    const el = document.getElementById('preco');
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }});
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
 
-  function renderDashboardMock(container) {
-    if (!container || container.dataset.mounted) return;
-    container.dataset.mounted = '1';
-
-    const rows = [
-      { name: 'Maria Silva',   next: '12/06/2025', status: 'Atrasado',  tone: 'error' },
-      { name: 'Juliana Souza', next: '13/06/2025', status: 'No prazo',  tone: 'neutral' },
-      { name: 'Camila Santos', next: '15/06/2025', status: 'Próximo',   tone: 'warning' },
-    ];
-
-    const cards = [
-      { label: 'clientes hoje',     value: '12',       title: 'Próximo retorno' },
-      { label: 'ações sugeridas',   value: '8',        title: 'Oportunidades' },
-      { label: 'este mês',          value: 'R$ 24.680', title: 'Faturamento' },
-    ];
-
-    const toneStyles = {
-      error:   { bg: 'var(--feedback-error-bg)',   fg: 'var(--feedback-error-fg)' },
-      neutral: { bg: 'var(--color-info-bg)',        fg: 'var(--text-primary)' },
-      warning: { bg: '#F3E4C8',                     fg: '#8A5A2B' },
-    };
-
-    container.innerHTML = `
-      <div style="font-family: var(--font-body); font-size: 13px; font-weight: 700; letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--text-muted); margin-bottom: 18px;">Bom dia, Ana</div>
-      <div style="display: flex; gap: 14px; margin-bottom: 24px;">
-        ${cards.map(c => `
-          <div style="flex: 1; background: var(--color-light-cream); border-radius: 16px; padding: 16px; min-width: 0;">
-            <div style="font-family: var(--font-display); font-size: 22px; font-weight: 600; color: var(--text-primary);">${c.value}</div>
-            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 2px;">${c.label}</div>
-          </div>
-        `).join('')}
-      </div>
-      <table style="width: 100%; border-collapse: collapse; font-family: var(--font-body);">
-        <thead><tr>
-          <th style="text-align: left; font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; padding: 0 8px 10px; border-bottom: 1px solid var(--border-default);">Cliente</th>
-          <th style="text-align: left; font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; padding: 0 8px 10px; border-bottom: 1px solid var(--border-default);">Retorno</th>
-          <th style="text-align: left; font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; padding: 0 8px 10px; border-bottom: 1px solid var(--border-default);">Status</th>
-        </tr></thead>
-        <tbody>
-          ${rows.map((r, i) => `
-            <tr>
-              <td style="padding: 12px 8px; font-size: 14px; color: var(--text-primary); border-bottom: ${i === rows.length - 1 ? 'none' : '1px solid var(--border-default)'};">${r.name}</td>
-              <td style="padding: 12px 8px; font-size: 14px; color: var(--text-secondary); border-bottom: ${i === rows.length - 1 ? 'none' : '1px solid var(--border-default)'};">${r.next}</td>
-              <td style="padding: 12px 8px; border-bottom: ${i === rows.length - 1 ? 'none' : '1px solid var(--border-default)'};"><span style="display:inline-flex; font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 999px; background: ${toneStyles[r.tone].bg}; color: ${toneStyles[r.tone].fg};">${r.status}</span></td>
-            </tr>
-          `).join('')}
-        </tbody>
-      </table>
-    `;
-  }
-
-  document.addEventListener('DOMContentLoaded', function () {
-    renderDashboardMock(document.getElementById('dashboard-mock'));
-    renderDashboardMock(document.getElementById('dashboard-mock-2'));
-
-    if (window.lucide) {
-      window.lucide.createIcons();
-    } else {
-      const interval = setInterval(function () {
-        if (window.lucide) {
-          window.lucide.createIcons();
-          clearInterval(interval);
-        }
-      }, 100);
-      setTimeout(function () { clearInterval(interval); }, 3000);
-    }
+  document.querySelectorAll('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const answer = btn.nextElementSibling;
+      const isOpen = answer.classList.contains('open');
+      document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
+      document.querySelectorAll('.faq-question').forEach(q => q.classList.remove('active'));
+      if (!isOpen) { answer.classList.add('open'); btn.classList.add('active'); }
+    });
   });
+
+  const ctaFlutuante = document.getElementById('ctaFlutuante');
+  const heroSection = document.querySelector('.hero');
+  const ofertaSection = document.querySelector('.oferta');
+  const ctaFinalSection = document.querySelector('.cta-final');
+  let pastHero = false, nearCompetingCta = false;
+
+  const heroWatcher = new IntersectionObserver((entries) => {
+    entries.forEach(e => { pastHero = !e.isIntersecting && e.boundingClientRect.top < 0; updateFlutuante(); });
+  }, { threshold: 0 });
+  heroWatcher.observe(heroSection);
+
+  const competingWatcher = new IntersectionObserver((entries) => {
+    let anyVisible = false;
+    entries.forEach(e => { if (e.isIntersecting) anyVisible = true; });
+    nearCompetingCta = anyVisible || (document.querySelector('.oferta').getBoundingClientRect().top < window.innerHeight && document.querySelector('.oferta').getBoundingClientRect().bottom > 0) || (document.querySelector('.cta-final').getBoundingClientRect().top < window.innerHeight && document.querySelector('.cta-final').getBoundingClientRect().bottom > 0);
+    updateFlutuante();
+  }, { threshold: 0.1 });
+  competingWatcher.observe(ofertaSection);
+  competingWatcher.observe(ctaFinalSection);
+
+  function updateFlutuante(){
+    ctaFlutuante.classList.toggle('visible', pastHero && !nearCompetingCta);
+  }
 </script>
+
 </body>
 </html>
