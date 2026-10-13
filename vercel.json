@@ -2,24 +2,29 @@
   "redirects": [
     {
       "source": "/(.*)",
-      "has": [{"type": "host", "value": "avancecerto.com.br"}],
+      "has": [
+        {
+          "type": "host",
+          "value": "avancecerto.com.br"
+        }
+      ],
       "destination": "https://avancecerto.com/$1",
       "permanent": true
     },
     {
       "source": "/(.*)",
-      "has": [{"type": "host", "value": "www.avancecerto.com.br"}],
+      "has": [
+        {
+          "type": "host",
+          "value": "www.avancecerto.com.br"
+        }
+      ],
       "destination": "https://avancecerto.com/$1",
       "permanent": true
     },
     {
-      "source": "/agenda360",
-      "destination": "https://auradaesteticista.com.br/agenda360/",
-      "permanent": true
-    },
-    {
-      "source": "/agenda360/:path*",
-      "destination": "https://auradaesteticista.com.br/agenda360/:path*",
+      "source": "/agenda360(/.*)?",
+      "destination": "https://auradaesteticista.com.br/agenda360$1",
       "permanent": true
     }
   ]
